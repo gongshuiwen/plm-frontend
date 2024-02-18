@@ -1,14 +1,42 @@
 <script setup lang="ts">
-import type { FormInstance, ElForm, ElFormItem, ElInput, ElButton } from "element-plus";
-import { ref, reactive} from "vue";
+import type { FormInstance } from "element-plus";
+import { ref, reactive, onMounted, onBeforeUnmount } from "vue";
 
 import { UserFilled, Lock } from '@element-plus/icons-vue'
 
 const loading = ref(false);
-const ruleFormRef = ref<FormInstance>();
+const loginFormRef = ref<FormInstance>();
 const loginForm = reactive({
   username: "admin",
   password: "admin123"
+});
+
+const onLogin = async (formIns: FormInstance | undefined) => {
+  loading.value = true;
+  if (!formIns) return;
+  await formIns.validate((valid, fields) => {
+    if (valid) {
+      // todo: implement login logic
+      loading.value = false;
+    } else {
+      loading.value = false;
+      return fields;
+    }
+  });
+};
+
+function onkeypress({ code }: KeyboardEvent) {
+  if (code === "Enter") {
+    onLogin(loginFormRef.value);
+  }
+}
+
+onMounted(() => {
+  window.document.addEventListener("keypress", onkeypress);
+});
+
+onBeforeUnmount(() => {
+  window.document.removeEventListener("keypress", onkeypress);
 });
 </script>
 
@@ -22,7 +50,7 @@ const loginForm = reactive({
           </div>
         </template>
         <el-form class="w-80"
-          ref="ruleFormRef"
+          ref="loginFormRef"
           size="large"
           :model="loginForm"
         >
@@ -64,6 +92,7 @@ const loginForm = reactive({
           size="default"
           type="primary"
           :loading="loading"
+          @click="onLogin(loginFormRef)"
           >
           登 录
           </el-button>
