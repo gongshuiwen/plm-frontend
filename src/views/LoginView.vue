@@ -26,7 +26,14 @@ const loginForm = reactive({
           size="large"
           :model="loginForm"
         >
-          <el-form-item prop="username">
+          <el-form-item prop="username"
+            :rules="[
+              {
+                required: true,
+                message: '请输入账号',
+                trigger: 'blur'
+              }
+            ]">
           <el-input
               clearable
               placeholder="账 号"
@@ -35,7 +42,14 @@ const loginForm = reactive({
           />
           </el-form-item>
 
-          <el-form-item prop="password">
+          <el-form-item prop="password"
+          :rules="[
+              {
+                required: true,
+                message: '请输入密码',
+                trigger: 'blur'
+              }
+            ]">
           <el-input
               clearable
               show-password
