@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import type { FormInstance } from "element-plus";
 import { ref, reactive, onMounted, onBeforeUnmount } from "vue";
-
 import { UserFilled, Lock } from '@element-plus/icons-vue'
+import { useUserStore } from "@/stores/user";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const userStore = useUserStore();
 
 const loading = ref(false);
 const loginFormRef = ref<FormInstance>();
@@ -17,6 +21,8 @@ const onLogin = async (formIns: FormInstance | undefined) => {
   await formIns.validate((valid, fields) => {
     if (valid) {
       // todo: implement login logic
+      userStore.setToken("token");
+      router.push({ path: "/" });
       loading.value = false;
     } else {
       loading.value = false;
