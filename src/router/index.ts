@@ -1,6 +1,7 @@
 import 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
+import { useBreadcrumbStore } from '@/stores/breadcrumb'
 import { useRoutesStore } from '@/stores/routes'
 import { useUserStore } from '@/stores/user'
 import LayoutView from '@/layout/LayoutView.vue'
@@ -141,6 +142,11 @@ router.beforeEach((to, from) => {
     return { name: 'login' }
   }
   return true
+})
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+router.afterEach((to, from) => {
+  useBreadcrumbStore().refresh()
 })
 
 export function refreshRoutes () {
