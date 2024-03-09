@@ -5,14 +5,14 @@ import LayoutHeader from './LayoutHeader.vue'
 
 <template>
   <el-container style="height: 100vh">
-    <el-aside width="200px">
+    <el-aside width="200px" class="border-r">
       <LayoutAside />
     </el-aside>
     <el-container>
-      <el-header height="96">
+      <el-header height="48px">
         <LayoutHeader/>
       </el-header>
-      <el-main>
+      <el-main class="border-t">
         <RouterView />
       </el-main>
     </el-container>
