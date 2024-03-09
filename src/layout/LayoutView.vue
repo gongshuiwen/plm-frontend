@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import LayoutAside from './LayoutAside.vue';
+import LayoutHeader from './LayoutHeader.vue'
 </script>
 
 <template>
@@ -8,7 +9,9 @@ import LayoutAside from './LayoutAside.vue';
       <LayoutAside />
     </el-aside>
     <el-container>
-      <el-header>Header</el-header>
+      <el-header height="96">
+        <LayoutHeader/>
+      </el-header>
       <el-main>
         <RouterView />
       </el-main>
