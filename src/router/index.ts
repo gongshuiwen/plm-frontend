@@ -1,6 +1,7 @@
 import 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
+import { useRoutesStore } from '@/stores/routes'
 import { useUserStore } from '@/stores/user'
 import LayoutView from '@/layout/LayoutView.vue'
 
@@ -111,7 +112,6 @@ export const staicRoutes: RouteRecordRaw[] = [
   },
   {
     path: '/about',
-    name: 'about',
     component: LayoutView,
     meta: {
       icon: 'ep:info-filled',
@@ -122,6 +122,7 @@ export const staicRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: '',
+        name: 'about',
         component: {
           template: '<div>关于</div>'
         }
@@ -143,5 +144,26 @@ router.beforeEach((to, from) => {
   }
   return true
 })
+
+export function refreshRoutes () {
+    // TODO: Get dynamic routes by api
+  const dynamicRoutes: RouteRecordRaw[] = []
+  console.log(router.getRoutes())    
+
+  // remove old dynamic routes
+  router.getRoutes().forEach((route) => {
+    if (route.meta.isDynamic) {
+      router.removeRoute(route.name as string)
+    }
+  })
+
+  // Add new dynamic routes
+  for (const route of dynamicRoutes) {
+    router.addRoute(route)
+  }
+
+  // set routes store
+  useRoutesStore().setRoutes([...staicRoutes, ...dynamicRoutes])
+}
 
 export default router
