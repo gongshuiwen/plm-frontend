@@ -40,9 +40,7 @@ export const staicRoutes: RouteRecordRaw[] = [
       {
         path: '/home',
         name: 'home',
-        component: {
-          template: '<div>首页</div>'
-        },
+        component: () => import('../views/HomeView.vue'),
         meta: {
           requireAuth: true
         }
@@ -148,7 +146,6 @@ router.beforeEach((to, from) => {
 export function refreshRoutes () {
     // TODO: Get dynamic routes by api
   const dynamicRoutes: RouteRecordRaw[] = []
-  console.log(router.getRoutes())    
 
   // remove old dynamic routes
   router.getRoutes().forEach((route) => {
