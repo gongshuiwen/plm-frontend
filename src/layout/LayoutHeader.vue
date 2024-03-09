@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue'
+import { onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
+import { useBreadcrumbStore } from '@/stores/breadcrumb'
 
 const router = useRouter()
 const userStore = useUserStore()
-const paths = ref(['home', 'home-1', 'home-1-1'])
+const breadcrumbStore = useBreadcrumbStore()
 
 function onLogout() {
   userStore.logout()
@@ -21,8 +22,8 @@ onBeforeMount(() => {
   <el-row class="w-full h-12">
     <el-col :span="16" class="flex items-center">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="font-size" v-for="path in paths" :key="path">
-          {{ path }}
+        <el-breadcrumb-item class="font-size" v-for="item, index in breadcrumbStore.items" :key="index">
+          {{ item }}
         </el-breadcrumb-item>
       </el-breadcrumb>
     </el-col>
@@ -40,4 +41,4 @@ onBeforeMount(() => {
       </el-dropdown>
     </el-col>
   </el-row>
-</template>
+</template>@/stores/breadcrumb
