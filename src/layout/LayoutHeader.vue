@@ -41,4 +41,4 @@ onBeforeMount(() => {
       </el-dropdown>
     </el-col>
   </el-row>
-</template>@/stores/breadcrumb
+</template>
