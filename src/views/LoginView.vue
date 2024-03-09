@@ -18,12 +18,17 @@ const loginForm = reactive({
 const onLogin = async (formIns: FormInstance | undefined) => {
   loading.value = true;
   if (!formIns) return;
-  await formIns.validate((valid, fields) => {
+  await formIns.validate(async(valid, fields) => {
     if (valid) {
-      // todo: implement login logic
-      userStore.setToken("token");
-      router.push({ path: "/" });
-      loading.value = false;
+      try {
+        await userStore.login(loginForm.username, loginForm.password);
+        router.push('/home')
+      } catch (error) {
+        // TODO: notify by message
+        console.log(error)
+      } finally {
+        loading.value = false;
+      }
     } else {
       loading.value = false;
       return fields;
@@ -52,7 +57,7 @@ onBeforeUnmount(() => {
       <el-card>
         <template #header>
           <div class="font-bold text-gray-500 text-3xl text-center mt-4 mb-4">
-            <span>XXX后台管理系统</span>
+            <span>MyAdmin</span>
           </div>
         </template>
         <el-form class="w-80"
