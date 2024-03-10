@@ -24,8 +24,7 @@ const onLogin = async (formIns: FormInstance | undefined) => {
         await userStore.login(loginForm.username, loginForm.password);
         router.push('/home')
       } catch (error) {
-        // TODO: notify by message
-        console.log(error)
+        // ignore error
       } finally {
         loading.value = false;
       }
