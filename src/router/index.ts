@@ -22,7 +22,6 @@ export const staicRoutes: RouteRecordRaw[] = [
     name: 'login',
     component: () => import('../views/LoginView.vue'),
     meta: {
-      requireAuth: true,
       isMenu: false
     }
   },
@@ -34,7 +33,7 @@ export const staicRoutes: RouteRecordRaw[] = [
     meta: {
       icon: 'ep:home-filled',
       title: '首页',
-      requireAuth: true,
+      requiresAuth: true,
       isMenu: true
     },
     children: [
@@ -43,7 +42,7 @@ export const staicRoutes: RouteRecordRaw[] = [
         name: 'home',
         component: () => import('../views/HomeView.vue'),
         meta: {
-          requireAuth: true
+          requiresAuth: true
         }
       }
     ]
@@ -56,7 +55,7 @@ export const staicRoutes: RouteRecordRaw[] = [
     meta: {
       icon: 'ep:menu',
       title: '多级菜单',
-      requireAuth: true,
+      requiresAuth: true,
       isMenu: true
     },
     children: [
@@ -68,7 +67,7 @@ export const staicRoutes: RouteRecordRaw[] = [
         },
         meta: {
           title: '多级菜单1',
-          requireAuth: true,
+          requiresAuth: true,
           isMenu: true
         }
       },
@@ -77,7 +76,7 @@ export const staicRoutes: RouteRecordRaw[] = [
         name: 'submenu2',
         meta: {
           title: '多级菜单2',
-          requireAuth: true,
+          requiresAuth: true,
           isMenu: true
         },
         children: [
@@ -89,7 +88,7 @@ export const staicRoutes: RouteRecordRaw[] = [
             },
             meta: {
               title: '多级菜单2-1',
-              requireAuth: true,
+              requiresAuth: true,
               isMenu: true
             }
           },
@@ -101,7 +100,7 @@ export const staicRoutes: RouteRecordRaw[] = [
             },
             meta: {
               title: '多级菜单2-2',
-              requireAuth: true,
+              requiresAuth: true,
               isMenu: true
             }
           }
@@ -115,7 +114,7 @@ export const staicRoutes: RouteRecordRaw[] = [
     meta: {
       icon: 'ep:info-filled',
       title: '关于',
-      requireAuth: true,
+      requiresAuth: true,
       isMenu: true
     },
     children: [
