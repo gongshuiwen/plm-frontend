@@ -31,7 +31,7 @@ onBeforeMount(() => {
       <el-dropdown trigger="click">
         <div class="h-12 p-2 flex items-center hover:bg-gray-100">
           <el-avatar :size="22" :src="userStore.avatar" />
-          <span class="ml-2 block" v-text="userStore.name"></span>
+          <span class="ml-2 block" v-text="userStore.nickname"></span>
         </div>
         <template #dropdown>
           <el-dropdown-menu>
