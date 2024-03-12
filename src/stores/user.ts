@@ -1,43 +1,44 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
+import { login as apiLogin, logout as apiLogout} from '@/api/auth'
+import { getUserInfo } from '@/api/user'
+import type User from '@/models/user'
 
 export const useUserStore = defineStore('user', () => {
-  const token = ref(localStorage.getItem('token') || '');
-  const name = ref('');
+  const userId = ref(localStorage.getItem('userId') || '');
+  const username = ref('');
+  const nickname = ref('');
   const avatar = ref('');
 
-  function setToken(newToken: string) {
-    token.value = newToken;
-    localStorage.setItem('token', newToken);
+  function setUserInfo(user: User) {
+    userId.value = user.id
+    username.value = user.username
+    nickname.value = user.nickname
+    avatar.value = user.avatar
+    localStorage.setItem('userId', user.id)
   }
 
-  function clearToken() {
-    token.value = '';
-    localStorage.removeItem('token');
+  function clearUserInfo() {
+    userId.value = ''
+    username.value = ''
+    nickname.value = ''
+    avatar.value = ''
+    localStorage.removeItem('userId')
   }
 
-  async function login(username: string, password: string) {
-    // TODO: login by api
-    if (username === 'admin' && password === 'admin123') {
-      setToken('token')
-    } else {
-      throw new Error('登录失败！');
-    }
+  async function login(username1: string, password: string) {
+    setUserInfo(await apiLogin(username1, password))
   }
 
   async function logout() {
-    clearToken();
+    await apiLogout();
+    clearUserInfo();
   }
 
-  function refreshUserInfo() {
-    if (token.value) {
-      // TODO: get user info by api
-      name.value = 'admin';
-      avatar.value = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png';
-    } else {
-      name.value = '';
-      avatar.value = '';
-    }
+  async function refreshUserInfo() {
+    if (!userId.value) return
+    setUserInfo(await getUserInfo(userId.value))
   }
-  return { token, name, avatar, login, logout, refreshUserInfo };
+
+  return { userId, username, nickname, avatar, login, logout, refreshUserInfo };
 });

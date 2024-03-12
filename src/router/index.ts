@@ -136,8 +136,7 @@ const router = createRouter({
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 router.beforeEach((to, from) => {
-  const token = useUserStore().token
-  if (to.meta.requiresAuth && !token) {
+  if (to.meta.requiresAuth && !useUserStore().userId) {
     return { name: 'login' }
   }
   return true
