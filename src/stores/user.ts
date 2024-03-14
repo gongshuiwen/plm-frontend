@@ -2,7 +2,7 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import { login as apiLogin, logout as apiLogout} from '@/api/auth'
 import { getUserInfo } from '@/api/user'
-import type User from '@/models/user'
+import User from '@/models/user'
 
 export const useUserStore = defineStore('user', () => {
   const userId = ref(localStorage.getItem('userId') || '');
@@ -11,11 +11,11 @@ export const useUserStore = defineStore('user', () => {
   const avatar = ref('');
 
   function setUserInfo(user: User) {
-    userId.value = user.id
-    username.value = user.username
-    nickname.value = user.nickname
-    avatar.value = user.avatar
-    localStorage.setItem('userId', user.id)
+    userId.value = user.id || ''
+    username.value = user.username || ''
+    nickname.value = user.nickname || ''
+    avatar.value = user.avatar || ''
+    localStorage.setItem('userId', user.id || '')
   }
 
   function clearUserInfo() {
