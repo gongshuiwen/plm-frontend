@@ -27,14 +27,6 @@ function makeSuccessResponse<T>(data: T): any {
   }
 }
 
-function makeMockImplement<T>(data: T): () => Promise<any> {
-  return () => {
-    return new Promise<any>(function (resolve) {
-      resolve(makeSuccessResponse(data))
-    })
-  }
-}
-
 const mockClient = useRpcClient(Mock)
 
 describe('Test RpcClient', () => {
@@ -45,7 +37,7 @@ describe('Test RpcClient', () => {
   test('test get by id', async () => {
     const result = new Mock('1')
     const spy = vi.spyOn(axios, 'get')
-    spy.mockImplementationOnce(makeMockImplement(result))
+    spy.mockResolvedValueOnce(makeSuccessResponse(result))
     expect(await mockClient.getById('1')).toEqual(result)
     expect(spy).toHaveBeenCalledOnce()
     expect(spy).toHaveBeenCalledWith('/api/mock/1')
@@ -56,7 +48,7 @@ describe('Test RpcClient', () => {
     const pageSize = 20
     const result = [new Mock('1')]
     const spy = vi.spyOn(axios, 'post')
-    spy.mockImplementationOnce(makeMockImplement(result))
+    spy.mockResolvedValueOnce(makeSuccessResponse(result))
     expect(await mockClient.page(pageNum, pageSize)).toEqual(result)
     expect(spy).toHaveBeenCalledOnce()
     expect(spy).toHaveBeenCalledWith('/api/mock/page', { pageNum, pageSize })
@@ -66,7 +58,7 @@ describe('Test RpcClient', () => {
     const data = new Mock(undefined, 'name')
     const result = new Mock('1', 'name')
     const spy = vi.spyOn(axios, 'post')
-    spy.mockImplementationOnce(makeMockImplement(result))
+    spy.mockResolvedValueOnce(makeSuccessResponse(result))
     expect(await mockClient.createOne(data)).toEqual(result)
     expect(spy).toHaveBeenCalledOnce()
     expect(spy).toHaveBeenCalledWith('/api/mock', data)
@@ -76,7 +68,7 @@ describe('Test RpcClient', () => {
     const data = [new Mock(undefined, 'name'), new Mock(undefined, 'name2')]
     const result = [new Mock('1', 'name'), new Mock('2', 'name2')]
     const spy = vi.spyOn(axios, 'post')
-    spy.mockImplementationOnce(makeMockImplement(result))
+    spy.mockResolvedValueOnce(makeSuccessResponse(result))
     expect(await mockClient.createBatch(data)).toEqual(result)
     expect(spy).toHaveBeenCalledOnce()
     expect(spy).toHaveBeenCalledWith('/api/mock/batch', data)
@@ -86,7 +78,7 @@ describe('Test RpcClient', () => {
     const data = new Mock(undefined, 'name')
     const result = true
     const spy = vi.spyOn(axios, 'put')
-    spy.mockImplementationOnce(makeMockImplement(result))
+    spy.mockResolvedValueOnce(makeSuccessResponse(result))
     expect(await mockClient.updateById('1', data)).toEqual(result)
     expect(spy).toHaveBeenCalledOnce()
     expect(spy).toHaveBeenCalledWith('/api/mock/1', data)
@@ -97,7 +89,7 @@ describe('Test RpcClient', () => {
     const data = new Mock(undefined, 'name')
     const result = true
     const spy = vi.spyOn(axios, 'put')
-    spy.mockImplementationOnce(makeMockImplement(result))
+    spy.mockResolvedValueOnce(makeSuccessResponse(result))
     expect(await mockClient.updateByIds(ids, data)).toEqual(result)
     expect(spy).toHaveBeenCalledOnce()
     expect(spy).toHaveBeenCalledWith('/api/mock/batch', { ids, data })
@@ -107,7 +99,7 @@ describe('Test RpcClient', () => {
     const id = '1'
     const result = true
     const spy = vi.spyOn(axios, 'delete')
-    spy.mockImplementationOnce(makeMockImplement(result))
+    spy.mockResolvedValueOnce(makeSuccessResponse(result))
     expect(await mockClient.deleteById(id)).toEqual(result)
     expect(spy).toHaveBeenCalledOnce()
     expect(spy).toHaveBeenCalledWith('/api/mock/1')
@@ -117,7 +109,7 @@ describe('Test RpcClient', () => {
     const ids = ['1', '2', '3']
     const result = true
     const spy = vi.spyOn(axios, 'delete')
-    spy.mockImplementationOnce(makeMockImplement(result))
+    spy.mockResolvedValueOnce(makeSuccessResponse(result))
     expect(await mockClient.deleteByIds(ids)).toEqual(result)
     expect(spy).toHaveBeenCalledOnce()
     expect(spy).toHaveBeenCalledWith('/api/mock/batch', { data: { ids } })
