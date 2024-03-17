@@ -1,14 +1,16 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { login as apiLogin, logout as apiLogout } from '@/api/auth'
-import { getUserInfo } from '@/api/user'
 import User from '@/models/user'
+import { useRpcClient } from '@/utils/rpcClient'
 
 export const useUserStore = defineStore('user', () => {
   const userId = ref(localStorage.getItem('userId') || '')
   const username = ref('')
   const nickname = ref('')
   const avatar = ref('')
+
+  const userClient = useRpcClient(User)
 
   function setUserInfo(user: User) {
     userId.value = user.id || ''
@@ -37,7 +39,7 @@ export const useUserStore = defineStore('user', () => {
 
   async function refreshUserInfo() {
     if (!userId.value) return
-    setUserInfo(await getUserInfo(userId.value))
+    setUserInfo(await userClient.getById(userId.value))
   }
 
   return { userId, username, nickname, avatar, login, logout, refreshUserInfo }
