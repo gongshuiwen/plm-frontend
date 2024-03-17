@@ -1,14 +1,14 @@
-import { ref } from 'vue';
-import { defineStore } from 'pinia';
-import { login as apiLogin, logout as apiLogout} from '@/api/auth'
+import { ref } from 'vue'
+import { defineStore } from 'pinia'
+import { login as apiLogin, logout as apiLogout } from '@/api/auth'
 import { getUserInfo } from '@/api/user'
 import User from '@/models/user'
 
 export const useUserStore = defineStore('user', () => {
-  const userId = ref(localStorage.getItem('userId') || '');
-  const username = ref('');
-  const nickname = ref('');
-  const avatar = ref('');
+  const userId = ref(localStorage.getItem('userId') || '')
+  const username = ref('')
+  const nickname = ref('')
+  const avatar = ref('')
 
   function setUserInfo(user: User) {
     userId.value = user.id || ''
@@ -31,8 +31,8 @@ export const useUserStore = defineStore('user', () => {
   }
 
   async function logout() {
-    await apiLogout();
-    clearUserInfo();
+    await apiLogout()
+    clearUserInfo()
   }
 
   async function refreshUserInfo() {
@@ -40,5 +40,5 @@ export const useUserStore = defineStore('user', () => {
     setUserInfo(await getUserInfo(userId.value))
   }
 
-  return { userId, username, nickname, avatar, login, logout, refreshUserInfo };
-});
+  return { userId, username, nickname, avatar, login, logout, refreshUserInfo }
+})
