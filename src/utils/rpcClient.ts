@@ -39,8 +39,8 @@ export class Rpclient<T> {
   }
 
   async selectById(id: string | undefined | null): Promise<T> {
+    if (!id) throw new Error('id is required')
     try {
-      if (!id) throw new Error('id is required')
       const response: AxiosResponse<T> = await axiosInstance.get(`${this.baseURL}/${id}`)
       return response.data
     } catch (error) {
@@ -49,9 +49,9 @@ export class Rpclient<T> {
   }
 
   async selectByIds(ids: string[] | undefined | null): Promise<T[]> {
+    if (!ids) throw new Error('ids is required')
+    if (ids.length === 0) return []
     try {
-      if (!ids) throw new Error('ids is required')
-      if (ids.length === 0) return []
       const response: AxiosResponse<T[]> = await axiosInstance.get(`${this.baseURL}/batch`, {
         params: {ids: ids.join(',')}
       })
@@ -74,8 +74,8 @@ export class Rpclient<T> {
   }
 
   async createOne(data: T | undefined | null): Promise<T> {
+    if (!data) throw new Error('data is required')
     try {
-      if (!data) throw new Error('data is required')
       const response: AxiosResponse<T> = await axiosInstance.post(`${this.baseURL}`, data)
       return response.data
     } catch (error) {
@@ -84,9 +84,9 @@ export class Rpclient<T> {
   }
 
   async createBatch(data: T[] | undefined | null): Promise<T[]> {
+    if (!data) throw new Error('data is required')
+    if (data.length === 0) return []
     try {
-      if (!data) throw new Error('data is required')
-      if (data.length === 0) return []
       const response: AxiosResponse<T[]> = await axiosInstance.post(`${this.baseURL}/batch`, data)
       return response.data
     } catch (error) {
@@ -95,9 +95,9 @@ export class Rpclient<T> {
   }
 
   async updateById(id: string | undefined | null, data: T | undefined | null): Promise<boolean> {
+    if (!id) throw new Error('id is required')
+    if (!data) throw new Error('data is required')
     try {
-      if (!id) throw new Error('id is required')
-      if (!data) throw new Error('data is required')
       const response: AxiosResponse<boolean> = await axiosInstance.put(
         `${this.baseURL}/${id}`,
         data
@@ -112,9 +112,9 @@ export class Rpclient<T> {
     ids: string[] | undefined | null,
     data: T | undefined | null
   ): Promise<boolean> {
+    if (!ids) throw new Error('ids is required')
+    if (!data) throw new Error('data is required')
     try {
-      if (!ids) throw new Error('ids is required')
-      if (!data) throw new Error('data is required')
       if (ids.length === 0) return false
       const response: AxiosResponse<boolean> = await axiosInstance.put(
         `${this.baseURL}/batch`,
@@ -127,8 +127,8 @@ export class Rpclient<T> {
   }
 
   async deleteById(id: string | undefined | null): Promise<boolean> {
+    if (!id) throw new Error('id is required')
     try {
-      if (!id) throw new Error('id is required')
       const response: AxiosResponse<boolean> = await axiosInstance.delete(`${this.baseURL}/${id}`)
       return response.data
     } catch (error) {
