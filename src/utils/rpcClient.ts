@@ -30,9 +30,18 @@ export class Rpclient<T> {
     this.baseURL = '/api/' + modelName
   }
 
-  async getById(id: string): Promise<T> {
+  async selectById(id: string): Promise<T> {
     try {
       const response: AxiosResponse<R<T>> = await axios.get(`${this.baseURL}/${id}`)
+      return response.data.data
+    } catch (error) {
+      throw new Error(`Get request failed: ${(error as Error).message}`)
+    }
+  }
+
+  async selectByIds(ids: string[]): Promise<T[]> {
+    try {
+      const response: AxiosResponse<R<T[]>> = await axios.get(`${this.baseURL}/batch`, { params: { ids: ids.join(',') }})
       return response.data.data
     } catch (error) {
       throw new Error(`Get request failed: ${(error as Error).message}`)

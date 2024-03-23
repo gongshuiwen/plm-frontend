@@ -34,13 +34,23 @@ describe('Test RpcClient', () => {
     vi.restoreAllMocks()
   })
 
-  test('test get by id', async () => {
+  test('test select by id', async () => {
     const result = new Mock('1')
     const spy = vi.spyOn(axios, 'get')
     spy.mockResolvedValueOnce(makeSuccessResponse(result))
-    expect(await mockClient.getById('1')).toEqual(result)
+    expect(await mockClient.selectById('1')).toEqual(result)
     expect(spy).toHaveBeenCalledOnce()
     expect(spy).toHaveBeenCalledWith('/api/mock/1')
+  })
+
+  test('test select by ids', async () => {
+    const ids = ['1', '2']
+    const result = [new Mock('1'), new Mock('2')]
+    const spy = vi.spyOn(axios, 'get')
+    spy.mockResolvedValueOnce(makeSuccessResponse(result))
+    expect(await mockClient.selectByIds(ids)).toEqual(result)
+    expect(spy).toHaveBeenCalledOnce()
+    expect(spy).toHaveBeenCalledWith('/api/mock/batch', { params: { ids: ids.join(',') } })
   })
 
   test('test page', async () => {
