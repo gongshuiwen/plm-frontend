@@ -30,8 +30,9 @@ export class Rpclient<T> {
     this.baseURL = '/api/' + modelName
   }
 
-  async selectById(id: string): Promise<T> {
+  async selectById(id: string | undefined | null ): Promise<T> {
     try {
+      if (!id) throw new Error('id is required')
       const response: AxiosResponse<R<T>> = await axios.get(`${this.baseURL}/${id}`)
       return response.data.data
     } catch (error) {
@@ -39,8 +40,10 @@ export class Rpclient<T> {
     }
   }
 
-  async selectByIds(ids: string[]): Promise<T[]> {
+  async selectByIds(ids: string[] | undefined | null): Promise<T[]> {
     try {
+      if (!ids) throw new Error('ids is required')
+      if (ids.length === 0) return []
       const response: AxiosResponse<R<T[]>> = await axios.get(`${this.baseURL}/batch`, { params: { ids: ids.join(',') }})
       return response.data.data
     } catch (error) {
@@ -60,8 +63,9 @@ export class Rpclient<T> {
     }
   }
 
-  async createOne(data: T): Promise<T> {
+  async createOne(data: T | undefined | null): Promise<T> {
     try {
+      if (!data) throw new Error('data is required')
       const response: AxiosResponse<R<T>> = await axios.post(`${this.baseURL}`, data)
       return response.data.data
     } catch (error) {
@@ -69,8 +73,10 @@ export class Rpclient<T> {
     }
   }
 
-  async createBatch(data: T[]): Promise<T[]> {
+  async createBatch(data: T[] | undefined | null): Promise<T[]> {
     try {
+      if (!data) throw new Error('data is required')
+      if (data.length === 0) return []
       const response: AxiosResponse<R<T[]>> = await axios.post(`${this.baseURL}/batch`, data)
       return response.data.data
     } catch (error) {
@@ -78,8 +84,10 @@ export class Rpclient<T> {
     }
   }
 
-  async updateById(id: string, data: T): Promise<boolean> {
+  async updateById(id: string | undefined | null, data: T | undefined | null): Promise<boolean> {
     try {
+      if (!id) throw new Error('id is required')
+      if (!data) throw new Error('data is required')
       const response: AxiosResponse<R<boolean>> = await axios.put(`${this.baseURL}/${id}`, data)
       return response.data.data
     } catch (error) {
@@ -87,8 +95,11 @@ export class Rpclient<T> {
     }
   }
 
-  async updateByIds(ids: string[], data: T): Promise<boolean> {
+  async updateByIds(ids: string[] | undefined | null, data: T | undefined | null): Promise<boolean> {
     try {
+      if (!ids) throw new Error('ids is required')
+      if (!data) throw new Error('data is required')
+      if (ids.length === 0) return false
       const response: AxiosResponse<R<boolean>> = await axios.put(`${this.baseURL}/batch`,
         new BatchDTO<T>(ids, data)
       )
@@ -98,8 +109,9 @@ export class Rpclient<T> {
     }
   }
 
-  async deleteById(id: string): Promise<boolean> {
+  async deleteById(id: string | undefined | null): Promise<boolean> {
     try {
+      if (!id) throw new Error('id is required')
       const response: AxiosResponse<R<boolean>> = await axios.delete(`${this.baseURL}/${id}`)
       return response.data.data
     } catch (error) {
@@ -107,8 +119,9 @@ export class Rpclient<T> {
     }
   }
 
-  async deleteByIds(ids: string[]): Promise<boolean> {
+  async deleteByIds(ids: string[] | undefined | null): Promise<boolean> {
     try {
+      if (!ids) throw new Error('ids is required')
       const response: AxiosResponse<R<boolean>> = await axios.delete(`${this.baseURL}/batch`, { 
         data: new BatchDTO<null>(ids) 
       })
@@ -119,7 +132,7 @@ export class Rpclient<T> {
   }
 }
 
-interface ClassWithGetModelName<T> {
+export interface ClassWithGetModelName<T> {
   new (): T
   getModelName: () => string
 }
