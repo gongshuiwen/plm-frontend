@@ -1,13 +1,21 @@
 import axios from 'axios'
 import type { AxiosResponse } from 'axios'
 
-class BatchDTO<T> {
+class BatchUpdateDto<T> {
   ids: string[]
-  data?: T
+  data: T
 
-  constructor(ids: string[], data?: T) {
+  constructor(ids: string[], data: T) {
     this.ids = ids
     this.data = data
+  }
+}
+
+class BatchDeleteDto {
+  ids: string[]
+
+  constructor(ids: string[]) {
+    this.ids = ids
   }
 }
 
@@ -101,7 +109,7 @@ export class Rpclient<T> {
       if (!data) throw new Error('data is required')
       if (ids.length === 0) return false
       const response: AxiosResponse<R<boolean>> = await axios.put(`${this.baseURL}/batch`,
-        new BatchDTO<T>(ids, data)
+        new BatchUpdateDto<T>(ids, data)
       )
       return response.data.data
     } catch (error) {
@@ -123,7 +131,7 @@ export class Rpclient<T> {
     try {
       if (!ids) throw new Error('ids is required')
       const response: AxiosResponse<R<boolean>> = await axios.delete(`${this.baseURL}/batch`, { 
-        data: new BatchDTO<null>(ids) 
+        data: new BatchDeleteDto(ids) 
       })
       return response.data.data
     } catch (error) {
