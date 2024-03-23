@@ -16,7 +16,7 @@ export default {
     {
       path: '/system/user',
       name: 'user',
-      component: () => import('@/views/user/ListView.vue'),
+      component: () => import('@/views/UserView.vue'),
       meta: {
         icon: 'ep:user-filled',
         title: '用户管理',
