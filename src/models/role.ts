@@ -1,6 +1,6 @@
 export default class Role {
     static getModelName() {
-        return "rold"
+        return "role"
     }
 
     id?: string

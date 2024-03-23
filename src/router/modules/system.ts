@@ -23,6 +23,17 @@ export default {
         requiresAuth: true,
         isMenu: true
       }
+    },
+    {
+      path: '/system/role',
+      name: 'role',
+      component: () => import('@/views/RoleView.vue'),
+      meta: {
+        icon: 'ep:avatar',
+        title: '角色管理',
+        requiresAuth: true,
+        isMenu: true
+      }
     }
   ]
 } as RouteRecordRaw
