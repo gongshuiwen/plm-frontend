@@ -39,7 +39,7 @@ export const useUserStore = defineStore('user', () => {
 
   async function refreshUserInfo() {
     if (!userId.value) return
-    setUserInfo(await userClient.getById(userId.value))
+    setUserInfo(await userClient.selectById(userId.value))
   }
 
   return { userId, username, nickname, avatar, login, logout, refreshUserInfo }
