@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import axios from 'axios'
+import axios from "../request"
 import { useRpcClient } from '../rpcClient'
 
 class Mock {
@@ -19,11 +19,7 @@ class Mock {
 function makeSuccessResponse<T>(data: T): any {
   return {
     status: 200,
-    data: {
-      code: 10000,
-      message: 'OK',
-      data: data
-    }
+    data: data
   }
 }
 
