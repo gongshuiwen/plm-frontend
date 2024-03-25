@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import axios from "../request"
+import axios from '../request'
 import { useRpcClient } from '../rpcClient'
 
 class Mock {
@@ -98,7 +98,9 @@ describe('Test RpcClient', () => {
     spy.mockResolvedValueOnce(makeSuccessResponse(result))
     expect(await mockClient.updateByIds(ids, data)).toEqual(result)
     expect(spy).toHaveBeenCalledOnce()
-    expect(spy).toHaveBeenCalledWith('/api/mock/batch', { ids, data })
+    expect(spy).toHaveBeenCalledWith('/api/mock/batch', {
+      params: { ids: ids.join(',') }, data: data
+    })
   })
 
   test('test delete by id', async () => {
@@ -118,6 +120,6 @@ describe('Test RpcClient', () => {
     spy.mockResolvedValueOnce(makeSuccessResponse(result))
     expect(await mockClient.deleteByIds(ids)).toEqual(result)
     expect(spy).toHaveBeenCalledOnce()
-    expect(spy).toHaveBeenCalledWith('/api/mock/batch', { data: { ids } })
+    expect(spy).toHaveBeenCalledWith('/api/mock/batch', { params: { ids: ids.join(',') } })
   })
 })

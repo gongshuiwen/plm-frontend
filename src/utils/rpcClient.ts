@@ -1,24 +1,6 @@
 import type { AxiosResponse } from 'axios'
 import axiosInstance from './request'
 
-class BatchUpdateDto<T> {
-  ids: string[]
-  data: T
-
-  constructor(ids: string[], data: T) {
-    this.ids = ids
-    this.data = data
-  }
-}
-
-class BatchDeleteDto {
-  ids: string[]
-
-  constructor(ids: string[]) {
-    this.ids = ids
-  }
-}
-
 export interface R<T> {
   code: number
   message: string
@@ -53,7 +35,7 @@ export class Rpclient<T> {
     if (ids.length === 0) return []
     try {
       const response: AxiosResponse<T[]> = await axiosInstance.get(`${this.baseURL}/batch`, {
-        params: {ids: ids.join(',')}
+        params: { ids: ids.join(',') }
       })
       return response.data
     } catch (error) {
@@ -116,10 +98,10 @@ export class Rpclient<T> {
     if (!data) throw new Error('data is required')
     try {
       if (ids.length === 0) return false
-      const response: AxiosResponse<boolean> = await axiosInstance.put(
-        `${this.baseURL}/batch`,
-        new BatchUpdateDto<T>(ids, data)
-      )
+      const response: AxiosResponse<boolean> = await axiosInstance.put(`${this.baseURL}/batch`, {
+        params: { ids: ids.join(',') },
+        data: data
+      })
       return response.data
     } catch (error) {
       throw new Error(`Update request failed: ${(error as Error).message}`)
@@ -140,7 +122,7 @@ export class Rpclient<T> {
     try {
       if (!ids) throw new Error('ids is required')
       const response: AxiosResponse<boolean> = await axiosInstance.delete(`${this.baseURL}/batch`, {
-        data: new BatchDeleteDto(ids)
+        params: { ids: ids.join(',') }
       })
       return response.data
     } catch (error) {
