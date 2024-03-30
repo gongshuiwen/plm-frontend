@@ -1,4 +1,4 @@
-import User from '@/models/user'
+import User from '@/entities/user'
 import { Rpclient } from '@/utils/rpcClient'
 
 class UserClient extends Rpclient<User> {
