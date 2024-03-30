@@ -6,7 +6,6 @@ import userClient from '@/clients/userClient';
 <template>
   <ListView :client="userClient">
     <template #columns>
-      <el-table-column type="selection" width="32" />
       <el-table-column prop="username" label="用户名" sortable />
       <el-table-column prop="nickname" label="昵称" sortable />
       <el-table-column prop="avatar" label="头像">

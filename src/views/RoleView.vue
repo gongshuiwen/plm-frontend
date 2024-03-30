@@ -6,7 +6,6 @@ import roleClient from '@/clients/roleClient'
 <template>
   <ListView :client="roleClient">
     <template #columns>
-      <el-table-column type="selection" width="32" />
       <el-table-column prop="code" label="角色标识" sortable />
       <el-table-column prop="name" label="角色名称" sortable />
       <el-table-column prop="createTime" label="创建时间" sortable />
