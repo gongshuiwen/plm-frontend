@@ -13,5 +13,3 @@ const router = useRouter()
   </a>
   <LayoutMenu style="height: calc(100% - 50px)"/>
 </template>
-
-<style></style>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useLocaleStore } from '@/stores/locale'
@@ -21,9 +20,7 @@ function swithLocale(locale: string) {
   localeStore.setLocale(locale)
 }
 
-onBeforeMount(() => {
-  userStore.refreshUserInfo()
-})
+userStore.refreshUserInfo()
 </script>
 
 <template>
