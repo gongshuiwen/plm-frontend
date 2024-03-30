@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElTable, ElMessage } from 'element-plus';
-import { useRpcClient } from '@/utils/rpcClient';
-import type { ClassWithGetModelName } from '@/utils/rpcClient';
+import type { Rpclient } from '@/utils/rpcClient';
 import { Icon } from '@iconify/vue';
 
 const CREATE_MODE = "CREATE"
@@ -23,16 +22,17 @@ const formData = ref<any>({})
 let formDataOld: any = {}
 
 const props = defineProps<{
-  model: ClassWithGetModelName<any>,
+  client: Rpclient<any>,
 }>()
 
-const client = useRpcClient(props.model)
+const client = props.client
 
 fetchData()
 
 async function fetchData() {
   const data = await client.page(currentPage.value, pageSize.value)
   tableData.value = data.records
+  total.value = data.total
 }
 
 // control panel events

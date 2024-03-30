@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import ListView from '@/components/ListView.vue'
-import User from '@/models/user'
+import userClient from '@/clients/userClient';
 </script>
 
 <template>
-  <ListView :model="User">
+  <ListView :client="userClient">
     <template #columns>
       <el-table-column type="selection" width="32" />
       <el-table-column prop="username" label="用户名" sortable />

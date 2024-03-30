@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import ListView from '@/components/ListView.vue'
-import Role from '@/models/role'
+import roleClient from '@/clients/roleClient'
 </script>
 
 <template>
-  <ListView :model="Role">
+  <ListView :client="roleClient">
     <template #columns>
       <el-table-column type="selection" width="32" />
       <el-table-column prop="code" label="角色标识" sortable />
