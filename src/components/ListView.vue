@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElTable, ElMessage } from 'element-plus';
-import type { Rpclient } from '@/utils/rpcClient';
-import { Icon } from '@iconify/vue';
+import { ElTable, ElMessage } from 'element-plus'
+import type { Rpclient } from '@/utils/rpcClient'
+import { Icon } from '@iconify/vue'
 
-const CREATE_MODE = "CREATE"
-const UPDATE_MODE = "UPDATE"
+const CREATE_MODE = 'CREATE'
+const UPDATE_MODE = 'UPDATE'
 type FORM_MODE = typeof CREATE_MODE | typeof UPDATE_MODE
 
 // const tableRef = ref<InstanceType<typeof ElTable>>()
@@ -22,7 +22,7 @@ const formData = ref<any>({})
 let formDataOld: any = {}
 
 const props = defineProps<{
-  client: Rpclient<any>,
+  client: Rpclient<any>
 }>()
 
 const client = props.client
@@ -49,7 +49,7 @@ function handleRefresh() {
 
 async function handleDeleteBatch() {
   if (selections.value.length > 0) {
-    await client.deleteByIds(selections.value.filter(x => x.id).map(x => (x.id)))
+    await client.deleteByIds(selections.value.filter((x) => x.id).map((x) => x.id))
     ElMessage.success('删除成功')
     fetchData()
   }
@@ -91,8 +91,8 @@ async function handleConfirm() {
     await client.createOne(formData.value)
     ElMessage.success('创建成功')
   } else {
-    const updateData:any = {}
-    Object.keys(formData.value).forEach(x => {
+    const updateData: any = {}
+    Object.keys(formData.value).forEach((x) => {
       if (formData.value[x] !== formDataOld[x]) {
         updateData[x] = formData.value[x]
       }
@@ -118,57 +118,51 @@ function handleClose() {
   <div>
     <el-button type="primary" @click="handleCreate">
       <el-icon>
-        <Icon :icon="'ep:plus'"/>
+        <Icon :icon="'ep:plus'" />
       </el-icon>
-      <div>
-        &nbsp;新建
-      </div>
+      <div>&nbsp;新建</div>
     </el-button>
     <el-button type="success" @click="handleRefresh">
       <el-icon>
-        <Icon :icon="'ep:refresh'"/>
+        <Icon :icon="'ep:refresh'" />
       </el-icon>
-      <div>
-        &nbsp;刷新
-      </div>
+      <div>&nbsp;刷新</div>
     </el-button>
-    <el-popconfirm title="是否确认删除?" v-show="selections.length > 0" @confirm="handleDeleteBatch">
+    <el-popconfirm title="是否确认删除?" @confirm="handleDeleteBatch">
       <template #reference>
-        <el-button type="danger">
-        <el-icon>
-          <Icon :icon="'ep:delete'"/>
-        </el-icon>
-        <div>
-          &nbsp;删除
-        </div>
-      </el-button>
-      </template> 
+        <el-button type="danger" v-show="selections.length > 0">
+          <el-icon>
+            <Icon :icon="'ep:delete'" />
+          </el-icon>
+          <div>&nbsp;删除</div>
+        </el-button>
+      </template>
     </el-popconfirm>
   </div>
-  <el-table :data="tableData" class="w-full h-full"
-    @selection-change="handleSelectionChange">
-    <el-table-column fixed type="selection" width="40"/>
-    <slot name="columns"></slot> 
+  <el-table :data="tableData" class="w-full h-full" @selection-change="handleSelectionChange">
+    <el-table-column fixed type="selection" width="40" />
+    <slot name="columns"></slot>
     <el-table-column fixed="right" label="操作" width="84">
       <template #default="scope">
         <el-button type="primary" size="small" circle @click="handleUpdate(scope)">
           <el-icon>
-            <Icon :icon="'ep:edit'"/>
+            <Icon :icon="'ep:edit'" />
           </el-icon>
         </el-button>
         <el-popconfirm title="是否确认删除?" @confirm="handleDeleteOne(scope)">
           <template #reference>
-          <el-button type="danger" size="small" circle>
-            <el-icon>
-              <Icon :icon="'ep:delete'"/>
-            </el-icon>
-          </el-button>
-          </template> 
+            <el-button type="danger" size="small" circle>
+              <el-icon>
+                <Icon :icon="'ep:delete'" />
+              </el-icon>
+            </el-button>
+          </template>
         </el-popconfirm>
       </template>
     </el-table-column>
   </el-table>
-  <el-pagination class="pt-2 pr-2"
+  <el-pagination
+    class="pt-2 pr-2"
     layout="prev, pager, next, jumper, ->, sizes, total"
     v-model:current-page="currentPage"
     v-model:page-size="pageSize"
@@ -182,14 +176,12 @@ function handleClose() {
     :title="formMode == CREATE_MODE ? '新建' : '编辑'"
     :before-close="handleClose"
   >
-  <slot name="form" :form="formData"></slot> 
-  <template #footer>
-    <div>
-      <el-button @click="handleClose">取消</el-button>
-      <el-button type="primary" @click="handleConfirm">
-        确认
-      </el-button>
-    </div>
-  </template>
+    <slot name="form" :form="formData"></slot>
+    <template #footer>
+      <div>
+        <el-button @click="handleClose">取消</el-button>
+        <el-button type="primary" @click="handleConfirm"> 确认 </el-button>
+      </div>
+    </template>
   </el-dialog>
 </template>
