@@ -4,20 +4,23 @@ import type { RouteRecordRaw } from 'vue-router'
 import { useBreadcrumbStore } from '@/stores/breadcrumb'
 import { useRoutesStore } from '@/stores/routes'
 import { useUserStore } from '@/stores/user'
+import type Menu from '@/models/menu'
+import menuClient from '@/clients/menuClient'
+import LayoutView from '@/layout/LayoutView.vue'
 
 declare module 'vue-router' {
   interface RouteMeta {
     title?: string
-    isMenu?: boolean
     icon?: string
     requiresAuth?: boolean
+    isMenu?: boolean
     isDynamic?: boolean
   }
 }
 
 const modules: Record<string, any> = import.meta.glob(
   [
-    './modules/**/*.ts',
+    './modules/**/*.ts'
     // './demo/**/*.ts' // for development use
   ],
   { eager: true }
@@ -46,9 +49,48 @@ router.afterEach((to, from) => {
   useBreadcrumbStore().refresh()
 })
 
-export function refreshRoutes () {
-    // TODO: Get dynamic routes by api
-  const dynamicRoutes: RouteRecordRaw[] = []
+function convertMenuListToRouteList(menus: Menu[], isRoot: boolean = true): RouteRecordRaw[] {
+  const routes: RouteRecordRaw[] = []
+  for (const menu of menus) {
+    const meta = {
+      title: menu.title,
+      icon: menu.icon,
+      requiresAuth: true,
+      isMenu: true,
+      isDynamic: true
+    }
+
+    if (isRoot || menu.component) {
+      let component
+      if (isRoot) {
+        component = LayoutView
+      } else {
+        const componentName = '/src/views/' + menu.component + '.vue'
+        component = () => import(componentName)
+      }
+
+      routes.push({
+        path: menu.path || '',
+        name: menu.name,
+        component: component,
+        meta: meta,
+        children: convertMenuListToRouteList(menu.children || [], false)
+      })
+    } else if (menu.redirect) {
+      routes.push({
+        path: menu.path || '',
+        name: menu.name,
+        redirect: menu.redirect,
+        meta: meta,
+        children: convertMenuListToRouteList(menu.children || [], false)
+      })
+    }
+  }
+  return routes
+}
+
+export async function refreshRoutes() {
+  const dynamicRoutes = convertMenuListToRouteList(await menuClient.tree())
 
   // remove old dynamic routes
   router.getRoutes().forEach((route) => {
