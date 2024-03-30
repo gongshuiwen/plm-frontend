@@ -132,31 +132,39 @@ function handleClose() {
         &nbsp;刷新
       </div>
     </el-button>
-    <el-button type="danger" v-show="selections.length > 0" @click="handleDeleteBatch">
-      <el-icon>
-        <Icon :icon="'ep:delete'"/>
-      </el-icon>
-      <div>
-        &nbsp;删除
-      </div>
-    </el-button>
+    <el-popconfirm title="是否确认删除?" v-show="selections.length > 0" @confirm="handleDeleteBatch">
+      <template #reference>
+        <el-button type="danger">
+        <el-icon>
+          <Icon :icon="'ep:delete'"/>
+        </el-icon>
+        <div>
+          &nbsp;删除
+        </div>
+      </el-button>
+      </template> 
+    </el-popconfirm>
   </div>
   <el-table :data="tableData" class="w-full h-full"
     @selection-change="handleSelectionChange">
-    <el-table-column type="selection" width="32" />
+    <el-table-column fixed type="selection" width="40"/>
     <slot name="columns"></slot> 
-    <el-table-column label="操作">
+    <el-table-column fixed="right" label="操作" width="84">
       <template #default="scope">
         <el-button type="primary" size="small" circle @click="handleUpdate(scope)">
           <el-icon>
             <Icon :icon="'ep:edit'"/>
           </el-icon>
         </el-button>
-        <el-button type="danger" size="small" circle @click="handleDeleteOne(scope)">
-          <el-icon>
-            <Icon :icon="'ep:delete'"/>
-          </el-icon>
-        </el-button>
+        <el-popconfirm title="是否确认删除?" @confirm="handleDeleteOne(scope)">
+          <template #reference>
+          <el-button type="danger" size="small" circle>
+            <el-icon>
+              <Icon :icon="'ep:delete'"/>
+            </el-icon>
+          </el-button>
+          </template> 
+        </el-popconfirm>
       </template>
     </el-table-column>
   </el-table>
