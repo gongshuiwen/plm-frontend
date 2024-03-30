@@ -139,8 +139,12 @@ function handleClose() {
       </template>
     </el-popconfirm>
   </div>
-  <el-table :data="tableData" class="w-full h-full" @selection-change="handleSelectionChange">
+  <el-table :data="tableData" class="w-full h-full" 
+    @selection-change="handleSelectionChange">
     <el-table-column fixed type="selection" width="40" />
+    <el-table-column fixed type="index" class="text-right">
+      <template #header>No.</template>
+    </el-table-column>
     <slot name="columns"></slot>
     <el-table-column fixed="right" label="操作" width="84">
       <template #default="scope">
@@ -166,6 +170,7 @@ function handleClose() {
     layout="prev, pager, next, jumper, ->, sizes, total"
     v-model:current-page="currentPage"
     v-model:page-size="pageSize"
+    v-show="total > 0"
     :total="total"
     :page-sizes="[10, 20, 40, 80, 160]"
     @size-change="handleSizeChange"
