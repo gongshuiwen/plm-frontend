@@ -1,5 +1,5 @@
-import type { AxiosResponse } from 'axios'
-import axiosInstance from './request'
+import type { AxiosResponse, AxiosInstance } from 'axios'
+import defaultAxiosInstance from './request'
 
 export interface R<T> {
   code: number
@@ -8,22 +8,26 @@ export interface R<T> {
 }
 
 export interface Page<T> {
-  current: number
-  total: number
-  records: T[]
+  current: number // page num
+  size: number // page size
+  pages: number // total pages
+  total: number // total records
+  records: T[] // current records
 }
 
 export class Rpclient<T> {
-  private baseURL: string
+  baseURL: string
+  axiosInstance: AxiosInstance
 
-  constructor(modelName: string) {
+  constructor(modelName: string, axiosInstance?: AxiosInstance) {
     this.baseURL = '/api/' + modelName
+    this.axiosInstance = axiosInstance || defaultAxiosInstance
   }
 
   async selectById(id: string | undefined | null): Promise<T> {
     if (!id) throw new Error('id is required')
     try {
-      const response: AxiosResponse<T> = await axiosInstance.get(`${this.baseURL}/${id}`)
+      const response: AxiosResponse<T> = await this.axiosInstance.get(`${this.baseURL}/${id}`)
       return response.data
     } catch (error) {
       throw new Error(`Get request failed: ${(error as Error).message}`)
@@ -34,7 +38,7 @@ export class Rpclient<T> {
     if (!ids) throw new Error('ids is required')
     if (ids.length === 0) return []
     try {
-      const response: AxiosResponse<T[]> = await axiosInstance.get(`${this.baseURL}/batch`, {
+      const response: AxiosResponse<T[]> = await this.axiosInstance.get(`${this.baseURL}/batch`, {
         params: { ids: ids.join(',') }
       })
       return response.data
@@ -45,7 +49,7 @@ export class Rpclient<T> {
 
   async page(pageNum: number, pageSize: number): Promise<Page<T>> {
     try {
-      const response: AxiosResponse<Page<T>> = await axiosInstance.post(`${this.baseURL}/page`, {
+      const response: AxiosResponse<Page<T>> = await this.axiosInstance.post(`${this.baseURL}/page`, {
         pageSize,
         pageNum
       })
@@ -58,7 +62,7 @@ export class Rpclient<T> {
   async createOne(data: T | undefined | null): Promise<T> {
     if (!data) throw new Error('data is required')
     try {
-      const response: AxiosResponse<T> = await axiosInstance.post(`${this.baseURL}`, data)
+      const response: AxiosResponse<T> = await this.axiosInstance.post(`${this.baseURL}`, data)
       return response.data
     } catch (error) {
       throw new Error(`Create request failed: ${(error as Error).message}`)
@@ -69,7 +73,7 @@ export class Rpclient<T> {
     if (!data) throw new Error('data is required')
     if (data.length === 0) return []
     try {
-      const response: AxiosResponse<T[]> = await axiosInstance.post(`${this.baseURL}/batch`, data)
+      const response: AxiosResponse<T[]> = await this.axiosInstance.post(`${this.baseURL}/batch`, data)
       return response.data
     } catch (error) {
       throw new Error(`Create request failed: ${(error as Error).message}`)
@@ -80,7 +84,7 @@ export class Rpclient<T> {
     if (!id) throw new Error('id is required')
     if (!data) throw new Error('data is required')
     try {
-      const response: AxiosResponse<boolean> = await axiosInstance.put(
+      const response: AxiosResponse<boolean> = await this.axiosInstance.put(
         `${this.baseURL}/${id}`,
         data
       )
@@ -98,7 +102,7 @@ export class Rpclient<T> {
     if (!data) throw new Error('data is required')
     try {
       if (ids.length === 0) return false
-      const response: AxiosResponse<boolean> = await axiosInstance.put(`${this.baseURL}/batch`, {
+      const response: AxiosResponse<boolean> = await this.axiosInstance.put(`${this.baseURL}/batch`, {
         params: { ids: ids.join(',') },
         data: data
       })
@@ -111,7 +115,7 @@ export class Rpclient<T> {
   async deleteById(id: string | undefined | null): Promise<boolean> {
     if (!id) throw new Error('id is required')
     try {
-      const response: AxiosResponse<boolean> = await axiosInstance.delete(`${this.baseURL}/${id}`)
+      const response: AxiosResponse<boolean> = await this.axiosInstance.delete(`${this.baseURL}/${id}`)
       return response.data
     } catch (error) {
       throw new Error(`Delete request failed: ${(error as Error).message}`)
@@ -121,7 +125,7 @@ export class Rpclient<T> {
   async deleteByIds(ids: string[] | undefined | null): Promise<boolean> {
     try {
       if (!ids) throw new Error('ids is required')
-      const response: AxiosResponse<boolean> = await axiosInstance.delete(`${this.baseURL}/batch`, {
+      const response: AxiosResponse<boolean> = await this.axiosInstance.delete(`${this.baseURL}/batch`, {
         params: { ids: ids.join(',') }
       })
       return response.data
