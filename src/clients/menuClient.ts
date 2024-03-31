@@ -1,7 +1,7 @@
-import { Rpclient } from '@/utils/rpcClient'
+import { RpcClient } from '@/utils/rpcClient'
 import Menu from '@/entities/menu'
 
-class MenuClient extends Rpclient<Menu> {
+class MenuClient extends RpcClient<Menu> {
   async tree(): Promise<Menu[]> {
     return (await this.axiosInstance.get(`${this.baseURL}/tree`)).data
   }

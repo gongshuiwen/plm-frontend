@@ -15,7 +15,7 @@ export interface Page<T> {
   records: T[] // current records
 }
 
-export class Rpclient<T> {
+export class RpcClient<T> {
   baseURL: string
   axiosInstance: AxiosInstance
 
@@ -140,8 +140,8 @@ export interface ClassWithGetModelName<T> {
   getModelName: () => string
 }
 
-export function useRpcClient<T>(classType: ClassWithGetModelName<T>): Rpclient<T> {
+export function useRpcClient<T>(classType: ClassWithGetModelName<T>): RpcClient<T> {
   const modelName = classType.getModelName()
   // TODO: improve performance by cache
-  return new Rpclient<T>(modelName)
+  return new RpcClient<T>(modelName)
 }

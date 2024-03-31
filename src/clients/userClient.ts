@@ -1,7 +1,7 @@
-import { Rpclient } from '@/utils/rpcClient'
+import { RpcClient } from '@/utils/rpcClient'
 import User from '@/entities/user'
 
-class UserClient extends Rpclient<User> {
+class UserClient extends RpcClient<User> {
 }
 
 export default new UserClient(User.getModelName());
