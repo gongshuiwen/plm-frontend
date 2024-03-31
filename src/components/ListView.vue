@@ -60,8 +60,8 @@ async function handleUpdate(scope: { row: any }) {
   formTitle.value = '编辑'
   formMode.value = UPDATE_MODE
   const data = await client.selectById(scope.row.id)
-  formDataOld = data
-  formData.value = await client.selectById(scope.row.id)
+  formDataOld = {...data}
+  formData.value = data
   dialogVisible.value = true
 }
 
