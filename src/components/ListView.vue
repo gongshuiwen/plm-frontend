@@ -102,14 +102,12 @@ async function handleConfirm() {
     ElMessage.success('更新成功')
   }
 
-  formData.value = {}
   formDataOld = {}
   fetchData()
   dialogVisible.value = false
 }
 
 function handleClose() {
-  formData.value = {}
   dialogVisible.value = false
 }
 </script>
