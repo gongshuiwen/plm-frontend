@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElTable, ElMessage } from 'element-plus'
-import type { Rpclient } from '@/utils/rpcClient'
+import type { RpcClient } from '@/utils/rpcClient'
 import { Icon } from '@iconify/vue'
 
 const CREATE_MODE = 'CREATE'
@@ -22,7 +22,7 @@ const formData = ref<any>({})
 let formDataOld: any = {}
 
 const props = defineProps<{
-  client: Rpclient<any>
+  client: RpcClient<any>
 }>()
 
 const client = props.client
@@ -139,8 +139,7 @@ function handleClose() {
       </template>
     </el-popconfirm>
   </div>
-  <el-table :data="tableData" class="w-full h-full" 
-    @selection-change="handleSelectionChange">
+  <el-table :data="tableData" class="w-full h-full" @selection-change="handleSelectionChange">
     <el-table-column fixed type="selection" width="40" />
     <el-table-column fixed type="index" class="text-right">
       <template #header>No.</template>
