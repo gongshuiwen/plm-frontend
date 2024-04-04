@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import ListView from '@/components/ListView.vue'
+import Many2One from '@/components/fields/Many2One.vue'
 import userClient from '@/clients/userClient';
+import departmentClient from '@/clients/departmentClient';
 </script>
 
 <template>
@@ -26,6 +28,9 @@ import userClient from '@/clients/userClient';
         </el-form-item>
         <el-form-item label="密码" required>
           <el-input type="password" show-password v-model="form.password" />
+        </el-form-item>
+        <el-form-item label="部门" required>
+          <Many2One :client="departmentClient" v-model="form.departmentId"/>
         </el-form-item>
       </el-form>
     </template>
