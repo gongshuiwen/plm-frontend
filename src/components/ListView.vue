@@ -3,10 +3,15 @@ import { ref } from 'vue'
 import { ElTable, ElMessage } from 'element-plus'
 import type { RpcClient } from '@/utils/rpcClient'
 import { Icon } from '@iconify/vue'
+import type { FORM_MODE, FIELD_TYPES } from './DialogFormView.vue'
+import DialogFormView from './DialogFormView.vue'
 
-const CREATE_MODE = 'CREATE'
-const UPDATE_MODE = 'UPDATE'
-type FORM_MODE = typeof CREATE_MODE | typeof UPDATE_MODE
+const props = defineProps<{
+  client: RpcClient<any>
+  fieldTypes: FIELD_TYPES
+}>()
+
+const client = props.client
 
 // const tableRef = ref<InstanceType<typeof ElTable>>()
 const tableData = ref<any[]>([])
@@ -14,18 +19,12 @@ const currentPage = ref(1)
 const pageSize = ref(20)
 const total = ref(0)
 const selections = ref<any[]>([])
-const dialogVisible = ref(false)
-const formTitle = ref('')
-const formMode = ref<FORM_MODE>()
+
+// Dialog form states
+const formRecordId = ref('')
 const formData = ref<any>({})
-
-let formDataOld: any = {}
-
-const props = defineProps<{
-  client: RpcClient<any>
-}>()
-
-const client = props.client
+const formMode = ref<FORM_MODE>("CREATE")
+const formVisible = ref(false)
 
 fetchData()
 
@@ -35,12 +34,19 @@ async function fetchData() {
   total.value = data.total
 }
 
+function openDialogForm(mode: FORM_MODE, recordId?: string) {
+  if (mode === "UPDATE" && recordId) {
+    formRecordId.value = recordId
+  } else {
+    formRecordId.value = ''
+  }
+  formMode.value = mode
+  formVisible.value = true
+}
+
 // control panel events
 function handleCreate() {
-  formTitle.value = '新建'
-  formMode.value = CREATE_MODE
-  formData.value = {}
-  dialogVisible.value = true
+  openDialogForm("CREATE")
 }
 
 function handleRefresh() {
@@ -57,12 +63,7 @@ async function handleDeleteBatch() {
 
 // table row events
 async function handleUpdate(scope: { row: any }) {
-  formTitle.value = '编辑'
-  formMode.value = UPDATE_MODE
-  const data = await client.selectById(scope.row.id)
-  formDataOld = {...data}
-  formData.value = data
-  dialogVisible.value = true
+  openDialogForm("UPDATE", scope.row.id)
 }
 
 async function handleDeleteOne(scope: { row: any }) {
@@ -83,32 +84,6 @@ function handleCurrentChange() {
 // selection events
 function handleSelectionChange(val: any[]) {
   selections.value = val
-}
-
-// dialog events
-async function handleConfirm() {
-  if (formMode.value == CREATE_MODE) {
-    await client.createOne(formData.value)
-    ElMessage.success('创建成功')
-  } else {
-    const updateData: any = {}
-    Object.keys(formData.value).forEach((x) => {
-      if (formData.value[x] !== formDataOld[x]) {
-        updateData[x] = formData.value[x]
-      }
-    })
-
-    await client.updateById(formData.value.id, updateData)
-    ElMessage.success('更新成功')
-  }
-
-  formDataOld = {}
-  fetchData()
-  dialogVisible.value = false
-}
-
-function handleClose() {
-  dialogVisible.value = false
 }
 </script>
 
@@ -173,17 +148,15 @@ function handleClose() {
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
   />
-  <el-dialog
-    v-model="dialogVisible"
-    :title="formMode == CREATE_MODE ? '新建' : '编辑'"
-    :before-close="handleClose"
-  >
+
+  <DialogFormView
+    v-model:form-data="formData"
+    v-model:form-visible="formVisible"
+    :field-types="fieldTypes"
+    :client="client"
+    :record-id="formRecordId"
+    :mode="formMode"
+    @on-dialog-confirm="fetchData">
     <slot name="form" :form="formData"></slot>
-    <template #footer>
-      <div>
-        <el-button @click="handleClose">取消</el-button>
-        <el-button type="primary" @click="handleConfirm"> 确认 </el-button>
-      </div>
-    </template>
-  </el-dialog>
+  </DialogFormView>
 </template>
