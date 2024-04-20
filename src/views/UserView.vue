@@ -1,12 +1,18 @@
 <script lang="ts" setup>
-import ListView from '@/components/ListView.vue'
-import Many2One from '@/components/fields/Many2One.vue'
 import userClient from '@/clients/userClient';
 import departmentClient from '@/clients/departmentClient';
+import { ref } from 'vue';
+
+const fieldTypes = ref<FIELD_TYPES>({
+  "username": "string",
+  "nickname": "string",
+  "password": "string",
+  "departmentId": "many2one",
+})
 </script>
 
 <template>
-  <ListView :client="userClient">
+  <ListView :client="userClient" :field-types="fieldTypes">
     <template #columns>
       <el-table-column prop="username" label="用户名" sortable />
       <el-table-column prop="nickname" label="昵称" sortable />
@@ -30,7 +36,7 @@ import departmentClient from '@/clients/departmentClient';
           <el-input type="password" show-password v-model="form.password" />
         </el-form-item>
         <el-form-item label="部门" required>
-          <Many2One :client="departmentClient" v-model="form.departmentId"/>
+          <Many2One v-model="form.departmentId" :client="departmentClient" />
         </el-form-item>
       </el-form>
     </template>
