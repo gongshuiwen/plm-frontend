@@ -17,5 +17,14 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       'vue': 'vue/dist/vue.esm-bundler.js'
     }
-  }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:18000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
 })
