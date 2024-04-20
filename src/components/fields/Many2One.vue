@@ -34,6 +34,7 @@ const nameSearch = async (name: string) => {
   <el-select
     filterable
     remote
+    clearable
     remote-show-suffix
     default-first-option
     value-key="id"

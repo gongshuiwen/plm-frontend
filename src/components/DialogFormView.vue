@@ -37,8 +37,8 @@ async function handleConfirm() {
           updateData[field] = formData.value[field]
         }
       } else if (props.fieldTypes[field] === 'many2one') {
-        if (formData.value[field].id !== formDataOld[field].id) {
-          updateData[field] = formData.value[field].id
+        if (formData.value[field]?.id !== formDataOld[field]?.id) {
+          updateData[field] = formData.value[field]?.id || 0
         }
       } else if (props.fieldTypes[field] === 'one2many') {
         // TODO
@@ -48,6 +48,7 @@ async function handleConfirm() {
         return;
       }
     })
+    console.log(updateData)
     await client.updateById(formData.value.id, updateData)
     ElMessage.success('更新成功')
   }
@@ -62,6 +63,7 @@ function handleClose() {
 
 async function fetchData() {
   formDataOld = await client.selectById(props.recordId)
+  console.log(formDataOld)
   formData.value = { ...formDataOld }
 }
 
