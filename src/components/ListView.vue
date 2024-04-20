@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElTable, ElMessage } from 'element-plus'
 import type { RpcClient } from '@/utils/rpcClient'
 import { Icon } from '@iconify/vue'
-import type { FORM_MODE, FIELD_TYPES } from './DialogFormView.vue'
-import DialogFormView from './DialogFormView.vue'
+import type { FORM_MODE } from './DialogFormView.vue'
+import { ElMessage } from 'element-plus';
 
 const props = defineProps<{
   client: RpcClient<any>

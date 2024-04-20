@@ -1,13 +1,9 @@
 <script lang="ts" setup>
 import { watch } from 'vue'
-import { ElMessage } from 'element-plus'
 import type { RpcClient } from '@/utils/rpcClient'
+import { ElMessage } from 'element-plus';
 
 export type FORM_MODE = 'CREATE' | 'UPDATE'
-export type FIELD_TYPE = 
-  'boolean' |'integer' | 'float' |  'string' | 'date' |
-  'many2one' | 'one2many' | 'many2many'
-export type FIELD_TYPES = { [key: string]: FIELD_TYPE; }
 
 const props = defineProps<{
   client: RpcClient<any>
