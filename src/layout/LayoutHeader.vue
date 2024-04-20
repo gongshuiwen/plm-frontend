@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useLocaleStore } from '@/stores/locale'
 import { useBreadcrumbStore } from '@/stores/breadcrumb'
+import defaultAvatar from '@/assets/defaultAvatar.png'
 
 import Globalization from "@/assets/globalization.svg?component";
 
@@ -45,8 +46,8 @@ userStore.refreshUserInfo()
         </template>
       </el-dropdown>
       <el-dropdown trigger="click">
-        <div class="h-12  pl-2.5 pr-2.5  flex items-center hover:bg-gray-100">
-          <el-avatar :size="22" :src="userStore.avatar" />
+        <div class="h-12  pl-2.5 pr-2.5 flex items-center hover:bg-gray-100">
+          <el-avatar :size="22" :src="userStore.avatar || defaultAvatar" />
           <span class="ml-2 block" v-text="userStore.nickname"></span>
         </div>
         <template #dropdown>
