@@ -59,6 +59,17 @@ export class RpcClient<T> {
     }
   }
 
+  async nameSearch(name: string | undefined | null): Promise<T[]> {
+    try {
+      const response: AxiosResponse<T[]> = await this.axiosInstance.get(`${this.baseURL}/nameSearch`, {
+        params: { name }
+      })
+      return response.data
+    } catch (error) {
+      throw new Error(`Search request failed: ${(error as Error).message}`)
+    }
+  }
+
   async createOne(data: T | undefined | null): Promise<T> {
     if (!data) throw new Error('data is required')
     try {
