@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { ref, onUpdated } from 'vue'
 import type { RpcClient } from '@/utils/rpcClient'
-import type { ElSelect } from 'element-plus';
-
-interface Option {
-  id: string
-  displayName: string
-}
+import type { ElSelect } from 'element-plus'
+import type { Option } from './types'
 
 const props = defineProps<{
   client: RpcClient<any>
@@ -17,9 +13,10 @@ const selectRef = ref<InstanceType<typeof ElSelect>>()
 const options = ref<Option[]>([])
 const loading = ref(false)
 
-onUpdated(async () => {
-  if (selectRef.value?.modelValue === selectRef.value?.states.selected.value && selectRef.value?.modelValue) {
-    selectRef.value.states.selectedLabel = (selectRef.value?.modelValue as any).displayName
+onUpdated(() => {
+  const states = selectRef.value?.states
+  if (states && !states.selectedLabel && states.selected.value ) {
+    states.selectedLabel = (states.selected.value as any).displayName
   }
 })
 
