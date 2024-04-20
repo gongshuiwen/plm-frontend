@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import ListView from '@/components/ListView.vue'
 import menuClient from '@/clients/menuClient'
 import { Icon } from '@iconify/vue';
 </script>

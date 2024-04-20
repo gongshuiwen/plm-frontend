@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import ListView from '@/components/ListView.vue'
 import roleClient from '@/clients/roleClient'
 </script>
 
