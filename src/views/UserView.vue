@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import userClient from '@/clients/userClient';
 import departmentClient from '@/clients/departmentClient';
+import roleClient from '@/clients/roleClient';
+import userClient from '@/clients/userClient';
 import { ref } from 'vue';
 
 const fieldTypes = ref<FIELD_TYPES>({
@@ -8,6 +9,7 @@ const fieldTypes = ref<FIELD_TYPES>({
   "nickname": "string",
   "password": "string",
   "departmentId": "many2one",
+  "roleIds": "many2many"
 })
 </script>
 
@@ -37,6 +39,9 @@ const fieldTypes = ref<FIELD_TYPES>({
         </el-form-item>
         <el-form-item label="部门" required>
           <Many2One v-model="form.departmentId" :client="departmentClient" />
+        </el-form-item>
+        <el-form-item label="角色" required>
+          <Many2Many v-model="form.roleIds" :client="roleClient" />
         </el-form-item>
       </el-form>
     </template>
