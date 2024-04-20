@@ -5,6 +5,9 @@ import { ElMessage } from 'element-plus';
 
 export type FORM_MODE = 'CREATE' | 'UPDATE'
 
+const baseFields: FIELD_TYPE[] =
+  ['boolean', 'integer', 'float', 'string', 'text', 'date', 'time', 'datetime'];
+
 const props = defineProps<{
   client: RpcClient<any>
   recordId: string
@@ -29,19 +32,22 @@ async function handleConfirm() {
   } else {
     const updateData: any = {}
     Object.keys(formData.value).forEach((field) => {
-      if (props.fieldTypes[field] === undefined) {
-        return
+      if (baseFields.indexOf(props.fieldTypes[field]) > -1) {
+        if (formData.value[field] !== formDataOld[field]) {
+          updateData[field] = formData.value[field]
+        }
       } else if (props.fieldTypes[field] === 'many2one') {
-        // TODO
+        if (formData.value[field].id !== formDataOld[field].id) {
+          updateData[field] = formData.value[field].id
+        }
       } else if (props.fieldTypes[field] === 'one2many') {
         // TODO
       } else if (props.fieldTypes[field] === 'many2many') {
         // TODO
-      } else if (formData.value[field] !== formDataOld[field]) {
-        updateData[field] = formData.value[field]
+      } else {
+        return;
       }
     })
-    console.log(updateData)
     await client.updateById(formData.value.id, updateData)
     ElMessage.success('更新成功')
   }
