@@ -9,7 +9,7 @@ const fieldTypes = ref<FIELD_TYPES>({
   "nickname": "string",
   "password": "string",
   "departmentId": "many2one",
-  "roleIds": "many2many"
+  "roles": "many2many"
 })
 </script>
 
@@ -41,7 +41,7 @@ const fieldTypes = ref<FIELD_TYPES>({
           <Many2One v-model="form.departmentId" :client="departmentClient" />
         </el-form-item>
         <el-form-item label="角色" required>
-          <Many2Many v-model="form.roleIds" :client="roleClient" />
+          <Many2Many v-model="form.roles" :client="roleClient" />
         </el-form-item>
       </el-form>
     </template>
