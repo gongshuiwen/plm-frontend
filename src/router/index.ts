@@ -31,13 +31,36 @@ Object.keys(modules).forEach((key) => {
   staicRoutes.push(modules[key].default)
 })
 
+// route not found
+staicRoutes.push({
+  path: '/:pathMatch(.*)*',
+  component: LayoutView,
+  children: [
+    {
+      path: '',
+      name: 'notFound',
+      component: {
+        template: '<div style="font-size: 24px;font-weight: bold">Page Not Found</div>'
+      },
+    }
+  ]
+})
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: staicRoutes
 })
 
+let dynamicRoutesInitialized = false
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-router.beforeEach((to, from) => {
+router.beforeEach(async (to, from) => {
+  // when route not found and dynamic routes not initialized, try to initialize
+  if (to.name === 'notFound' && !dynamicRoutesInitialized) {
+    await refreshRoutes()
+    return { path: to.path }
+  }
+
   if (to.meta.requiresAuth && !useUserStore().userId) {
     return { name: 'login' }
   }
@@ -106,6 +129,7 @@ export async function refreshRoutes() {
 
   // set routes store
   useRoutesStore().setRoutes([...staicRoutes, ...dynamicRoutes])
+  dynamicRoutesInitialized = true
 }
 
 export default router
