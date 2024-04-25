@@ -1,11 +1,8 @@
 <script lang="ts" setup>
 import LayoutMenuItems from './LayoutMenuItems.vue'
 import { useRoutesStore } from '@/stores/routes'
-import { refreshRoutes } from '@/router'
 
 const routesStore = useRoutesStore()
-
-refreshRoutes()
 </script>
 
 <template>
