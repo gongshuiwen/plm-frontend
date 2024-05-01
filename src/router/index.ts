@@ -52,11 +52,10 @@ const router = createRouter({
 })
 
 let dynamicRoutesInitialized = false
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 router.beforeEach(async (to, from) => {
-  // when route not found and dynamic routes not initialized, try to initialize
-  if (to.name === 'notFound' && !dynamicRoutesInitialized) {
+  // when the dynamic routes not initialized, try to initialize
+  if (!dynamicRoutesInitialized) {
     await refreshRoutes()
     return { path: to.path }
   }
