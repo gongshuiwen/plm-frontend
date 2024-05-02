@@ -13,6 +13,7 @@ const props = defineProps<{
 const client = props.client
 
 // const tableRef = ref<InstanceType<typeof ElTable>>()
+const loading = ref(false)
 const tableData = ref<any[]>([])
 const currentPage = ref(1)
 const pageSize = ref(20)
@@ -28,9 +29,11 @@ const formVisible = ref(false)
 fetchData()
 
 async function fetchData() {
+  loading.value = true
   const data = await client.page(currentPage.value, pageSize.value)
   tableData.value = data.records
   total.value = data.total
+  loading.value = false
 }
 
 function openDialogForm(mode: FORM_MODE, recordId?: string) {
@@ -111,7 +114,8 @@ function handleSelectionChange(val: any[]) {
       </template>
     </el-popconfirm>
   </div>
-  <el-table :data="tableData" class="w-full h-full" @selection-change="handleSelectionChange">
+
+  <el-table v-loading="loading" :data="tableData" class="w-full h-full" @selection-change="handleSelectionChange">
     <el-table-column fixed type="selection" width="40" />
     <el-table-column fixed type="index" class="text-right">
       <template #header>No.</template>
