@@ -39,7 +39,7 @@ async function handleConfirm() {
       } else if (props.fieldTypes[field] === 'one2many') {
         // TODO
       } else if (props.fieldTypes[field] === 'many2many') {
-        if (formData.value[field]) {
+        if (formData.value[field] && formData.value[field].length > 0) {
           createData[field] = [[0, formData.value[field].map((x: any) => x.id)]]
         }
       } else {
