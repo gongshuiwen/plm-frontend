@@ -91,7 +91,7 @@ function handleSelectionChange(val: any[]) {
 </script>
 
 <template>
-  <div>
+  <div class="border-b pt-2 pb-2 pl-4 pr-4">
     <el-button type="primary" @click="handleCreate">
       <el-icon>
         <Icon :icon="'ep:plus'" />
@@ -116,13 +116,13 @@ function handleSelectionChange(val: any[]) {
     </el-popconfirm>
   </div>
 
-  <el-table v-loading="loading" :data="tableData" class="w-full h-full" @selection-change="handleSelectionChange">
+  <el-table v-loading="loading" :data="tableData" class="w-full" @selection-change="handleSelectionChange">
     <el-table-column fixed type="selection" width="40" />
     <el-table-column fixed type="index" class="text-right">
       <template #header>No.</template>
     </el-table-column>
     <slot name="columns"></slot>
-    <el-table-column fixed="right" label="操作" width="84">
+    <el-table-column fixed="right" label="操作" width="96" class="mr-2">
       <template #default="scope">
         <el-button type="primary" size="small" circle @click="handleUpdate(scope)">
           <el-icon>
@@ -142,7 +142,7 @@ function handleSelectionChange(val: any[]) {
     </el-table-column>
   </el-table>
   <el-pagination
-    class="pt-2 pr-2"
+    class="pt-2 pb-2 pl-4 pr-4"
     layout="prev, pager, next, jumper, ->, sizes, total"
     v-model:current-page="currentPage"
     v-model:page-size="pageSize"
@@ -164,3 +164,9 @@ function handleSelectionChange(val: any[]) {
     <slot name="form" :form="formData"></slot>
   </DialogFormView>
 </template>
+
+<style lang="scss" scoped>
+.el-table {
+  height: calc(100% - 96.2px);
+}
+</style>

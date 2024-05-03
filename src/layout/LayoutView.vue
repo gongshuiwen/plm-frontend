@@ -4,17 +4,23 @@ import LayoutHeader from './LayoutHeader.vue'
 </script>
 
 <template>
-  <el-container style="height: 100vh">
+  <el-container class="h-screen">
     <el-aside width="200px" class="border-r">
       <LayoutAside />
     </el-aside>
-    <el-container>
-      <el-header height="48px">
+    <el-container class="h-full">
+      <el-header height="48px" class="border-b">
         <LayoutHeader/>
       </el-header>
-      <el-main class="border-t">
+      <el-main class="h-full">
         <RouterView />
       </el-main>
     </el-container>
   </el-container>
 </template>
+
+<style lang="scss" scoped>
+.el-main {
+  --el-main-padding: 0
+}
+</style>
