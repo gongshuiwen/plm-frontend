@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import departmentClient from '@/clients/departmentClient'
+import Department from '@/entities/department'
 </script>
 
 <template>
-  <ListView :client="departmentClient">
+  <ListView :entity-class="Department">
     <template #columns>
       <el-table-column prop="name" label="名称" sortable />
       <el-table-column prop="orderNum" label="序号" sortable />

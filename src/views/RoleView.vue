@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import roleClient from '@/clients/roleClient'
+import Role from '@/entities/role';
 </script>
 
 <template>
-  <ListView :client="roleClient">
+  <ListView :entity-class="Role">
     <template #columns>
       <el-table-column prop="code" label="角色标识" sortable />
       <el-table-column prop="name" label="角色名称" sortable />

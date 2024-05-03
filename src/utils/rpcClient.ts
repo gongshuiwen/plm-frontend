@@ -151,8 +151,14 @@ export interface ClassWithGetModelName<T> {
   getModelName: () => string
 }
 
-export function useRpcClient<T>(classType: ClassWithGetModelName<T>): RpcClient<T> {
-  const modelName = classType.getModelName()
-  // TODO: improve performance by cache
-  return new RpcClient<T>(modelName)
+const registry: { [key: string]: RpcClient<any>; } = {}
+export function useRpcClient<T>(entityClass: ClassWithGetModelName<T>): RpcClient<T> {
+  console.log(entityClass)
+  const modelName = entityClass.getModelName()
+  let client: RpcClient<T>  = registry[modelName]
+  if (!client) {
+    client = new RpcClient<T>(modelName)
+    registry[modelName] = client
+  }
+  return client
 }

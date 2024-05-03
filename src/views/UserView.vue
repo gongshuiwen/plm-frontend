@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import departmentClient from '@/clients/departmentClient';
-import roleClient from '@/clients/roleClient';
-import userClient from '@/clients/userClient';
 import { ref } from 'vue';
+import Department from '@/entities/department';
+import Role from '@/entities/role';
+import User from '@/entities/user';
 
 const fieldTypes = ref<FIELD_TYPES>({
   "username": "string",
@@ -14,7 +14,7 @@ const fieldTypes = ref<FIELD_TYPES>({
 </script>
 
 <template>
-  <ListView :client="userClient" :field-types="fieldTypes">
+  <ListView :entity-class="User" :field-types="fieldTypes">
     <template #columns>
       <el-table-column prop="username" label="用户名" sortable />
       <el-table-column prop="nickname" label="昵称" sortable />
@@ -29,7 +29,7 @@ const fieldTypes = ref<FIELD_TYPES>({
     <template #form="{ form }">
       <el-form :model="form" label-width="auto">
         <el-form-item label="用户名" required>
-          <el-input v-model="form.username" />
+          <el-input v-model="form.username" /> 
         </el-form-item>
         <el-form-item label="昵称" required>
           <el-input v-model="form.nickname" />
@@ -38,10 +38,10 @@ const fieldTypes = ref<FIELD_TYPES>({
           <el-input type="password" show-password v-model="form.password" />
         </el-form-item>
         <el-form-item label="部门" required>
-          <Many2One v-model="form.departmentId" :client="departmentClient" />
+          <Many2One v-model="form.departmentId" :entity-class="Department" />
         </el-form-item>
         <el-form-item label="角色" required>
-          <Many2Many v-model="form.roles" :client="roleClient" />
+          <Many2Many v-model="form.roles" :entity-class="Role" />
         </el-form-item>
       </el-form>
     </template>

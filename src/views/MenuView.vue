@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import menuClient from '@/clients/menuClient'
+import Menu from '@/entities/menu'
 import { Icon } from '@iconify/vue';
 </script>
 
 <template>
-  <ListView :client="menuClient">
+  <ListView :entity-class="Menu">
     <template #columns>
       <el-table-column prop="name" label="名称" sortable />
       <el-table-column prop="title" label="标题" sortable />
