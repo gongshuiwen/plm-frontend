@@ -92,13 +92,13 @@ function handleSelectionChange(val: any[]) {
 
 <template>
   <div class="border-b pt-2 pb-2 pl-4 pr-4">
-    <el-button type="primary" @click="handleCreate">
+    <el-button type="success" @click="handleCreate">
       <el-icon>
         <Icon :icon="'ep:plus'" />
       </el-icon>
       <div>&nbsp;新建</div>
     </el-button>
-    <el-button type="success" @click="handleRefresh">
+    <el-button type="info" @click="handleRefresh">
       <el-icon>
         <Icon :icon="'ep:refresh'" />
       </el-icon>
