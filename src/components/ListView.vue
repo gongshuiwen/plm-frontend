@@ -54,6 +54,7 @@ function handleCreate() {
 
 function handleRefresh() {
   fetchData()
+  ElMessage.success('刷新成功')
 }
 
 async function handleDeleteBatch() {
