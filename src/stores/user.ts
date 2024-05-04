@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', () => {
   const nickname = ref('')
   const avatar = ref('')
 
-  const userClient = useRpcClient(User)
+  const userClient = useRpcClient<User>(User.getModelName())
 
   function setUserInfo(user: User) {
     userId.value = user.id || ''

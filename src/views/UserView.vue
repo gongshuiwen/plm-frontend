@@ -4,7 +4,7 @@ import Department from '@/entities/department';
 import Role from '@/entities/role';
 import User from '@/entities/user';
 
-const fieldTypes = ref<FIELD_TYPES>({
+const fieldTypes = ref<FieldTypes>({
   "username": "string",
   "nickname": "string",
   "password": "string",
@@ -14,7 +14,7 @@ const fieldTypes = ref<FIELD_TYPES>({
 </script>
 
 <template>
-  <ListView :entity-class="User" :field-types="fieldTypes">
+  <ListView :model-name="User.getModelName()" :field-types="fieldTypes">
     <template #columns>
       <el-table-column prop="username" label="用户名" sortable />
       <el-table-column prop="nickname" label="昵称" sortable />
@@ -26,7 +26,7 @@ const fieldTypes = ref<FIELD_TYPES>({
       <el-table-column prop="loginTime" label="最近登录" sortable />
       <el-table-column prop="createTime" label="创建时间" sortable />
     </template>
-    <template #form="{ form }">
+    <template #form="{ form } : { form : User }">
       <el-form :model="form" label-width="auto">
         <el-form-item label="用户名" required>
           <el-input v-model="form.username" /> 
@@ -38,10 +38,10 @@ const fieldTypes = ref<FIELD_TYPES>({
           <el-input type="password" show-password v-model="form.password" />
         </el-form-item>
         <el-form-item label="部门" required>
-          <Many2One v-model="form.departmentId" :entity-class="Department" />
+          <Many2One v-model="form.departmentId" :model-name="Department.getModelName()" />
         </el-form-item>
         <el-form-item label="角色" required>
-          <Many2Many v-model="form.roles" :entity-class="Role" />
+          <Many2Many v-model="form.roles" :model-name="Role.getModelName()" />
         </el-form-item>
       </el-form>
     </template>

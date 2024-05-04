@@ -146,16 +146,9 @@ export class RpcClient<T> {
   }
 }
 
-export interface ClassWithGetModelName<T> {
-  new (): T
-  getModelName: () => string
-}
-
 const registry: { [key: string]: RpcClient<any>; } = {}
-export function useRpcClient<T>(entityClass: ClassWithGetModelName<T>): RpcClient<T> {
-  console.log(entityClass)
-  const modelName = entityClass.getModelName()
-  let client: RpcClient<T>  = registry[modelName]
+export function useRpcClient<T>(modelName: string): RpcClient<T> {
+  let client: RpcClient<T> = registry[modelName]
   if (!client) {
     client = new RpcClient<T>(modelName)
     registry[modelName] = client

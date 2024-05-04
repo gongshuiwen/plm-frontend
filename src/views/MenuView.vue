@@ -4,7 +4,7 @@ import { Icon } from '@iconify/vue';
 </script>
 
 <template>
-  <ListView :entity-class="Menu">
+  <ListView :model-name="Menu.getModelName()">
     <template #columns>
       <el-table-column prop="name" label="名称" sortable />
       <el-table-column prop="title" label="标题" sortable />

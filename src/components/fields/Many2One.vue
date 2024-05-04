@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { ref, onUpdated } from 'vue'
 import { useRpcClient } from '@/utils/rpcClient'
-import type { ClassWithGetModelName } from '@/utils/rpcClient'
 import type { ElSelect } from 'element-plus'
 import type { Option } from './types'
 
 const props = defineProps<{
-  entityClass: ClassWithGetModelName<any>
+  modelName: string
 }>()
 
-const client = useRpcClient(props.entityClass)
+const client = useRpcClient<any>(props.modelName)
 
 const selectRef = ref<InstanceType<typeof ElSelect>>()
 const options = ref<Option[]>([])

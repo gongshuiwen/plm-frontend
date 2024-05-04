@@ -3,7 +3,7 @@ import Department from '@/entities/department'
 </script>
 
 <template>
-  <ListView :entity-class="Department">
+  <ListView :model-name="Department.getModelName()">
     <template #columns>
       <el-table-column prop="name" label="名称" sortable />
       <el-table-column prop="orderNum" label="序号" sortable />

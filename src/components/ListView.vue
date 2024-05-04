@@ -3,15 +3,14 @@ import { ref } from 'vue'
 import { useRpcClient } from '@/utils/rpcClient'
 import { Icon } from '@iconify/vue'
 import { ElMessage } from 'element-plus';
-import type { ClassWithGetModelName } from '@/utils/rpcClient'
 import type { FORM_MODE } from './DialogFormView.vue'
 
 const props = defineProps<{
-  entityClass: ClassWithGetModelName<any>
+  modelName: string
   fieldTypes: FieldTypes
 }>()
 
-const client = useRpcClient(props.entityClass)
+const client = useRpcClient<any>(props.modelName)
 
 // const tableRef = ref<InstanceType<typeof ElTable>>()
 const loading = ref(false)
@@ -157,7 +156,7 @@ function handleSelectionChange(val: any[]) {
   <DialogFormView
     v-model:form-data="formData"
     v-model:form-visible="formVisible"
-    :entity-class="entityClass"
+    :model-name="modelName"
     :field-types="fieldTypes"
     :record-id="formRecordId"
     :mode="formMode"

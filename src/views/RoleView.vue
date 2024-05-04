@@ -3,7 +3,7 @@ import Role from '@/entities/role';
 </script>
 
 <template>
-  <ListView :entity-class="Role">
+  <ListView :model-name="Role.getModelName()">
     <template #columns>
       <el-table-column prop="code" label="角色标识" sortable />
       <el-table-column prop="name" label="角色名称" sortable />

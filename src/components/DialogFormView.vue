@@ -2,7 +2,6 @@
 import { watch } from 'vue'
 import { useRpcClient } from '@/utils/rpcClient'
 import { ElMessage } from 'element-plus'
-import type { ClassWithGetModelName } from '@/utils/rpcClient'
 
 export type FORM_MODE = 'CREATE' | 'UPDATE'
 
@@ -10,13 +9,13 @@ const baseFields: FieldType[] =
   ['boolean', 'integer', 'float', 'string', 'text', 'date', 'time', 'datetime']
 
 const props = defineProps<{
-  entityClass: ClassWithGetModelName<any>
+  modelName: string
   recordId: string
   fieldTypes: FieldTypes
   mode: FORM_MODE
 }>()
 
-const client = useRpcClient(props.entityClass)
+const client = useRpcClient<any>(props.modelName)
 
 const emit = defineEmits(['onDialogConfirm'])
 
