@@ -1,22 +1,16 @@
+import type Department from './department'
 import type Role from './role'
 
 export default class User {
-    static getModelName() {
-        return "user"
-    }
+  static getModelName() {
+    return "user"
+  }
 
-    id?: string
-    username?: string
-    password?: string
-    nickname?: string
-    avatar?: string
-    roles?: Role[]
-
-    constructor(id?: string, username?: string, nickname?: string, avatar?: string, roles?: Role[]) {
-        this.id = id
-        this.username = username
-        this.nickname = nickname
-        this.avatar = avatar
-        this.roles = roles
-    }
+  id?: string
+  username?: string
+  password?: string
+  nickname?: string
+  avatar?: string
+  departmentId?: Department
+  roles?: Role[]
 }
