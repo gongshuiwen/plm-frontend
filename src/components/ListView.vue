@@ -92,7 +92,7 @@ function handleSelectionChange(val: any[]) {
 </script>
 
 <template>
-  <div class="border-b pt-2 pb-2 pl-4 pr-4">
+  <div class="border-b px-4 py-2">
     <el-button type="success" @click="handleCreate">
       <el-icon>
         <Icon :icon="'ep:plus'" />
@@ -143,7 +143,7 @@ function handleSelectionChange(val: any[]) {
     </el-table-column>
   </el-table>
   <el-pagination
-    class="pt-2 pb-2 pl-4 pr-4"
+    class="px-4 py-2"
     layout="prev, pager, next, jumper, ->, sizes, total"
     v-model:current-page="currentPage"
     v-model:page-size="pageSize"
