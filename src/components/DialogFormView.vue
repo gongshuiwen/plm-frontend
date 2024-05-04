@@ -6,13 +6,13 @@ import type { ClassWithGetModelName } from '@/utils/rpcClient'
 
 export type FORM_MODE = 'CREATE' | 'UPDATE'
 
-const baseFields: FIELD_TYPE[] =
+const baseFields: FieldType[] =
   ['boolean', 'integer', 'float', 'string', 'text', 'date', 'time', 'datetime']
 
 const props = defineProps<{
   entityClass: ClassWithGetModelName<any>
   recordId: string
-  fieldTypes: FIELD_TYPES
+  fieldTypes: FieldTypes
   mode: FORM_MODE
 }>()
 

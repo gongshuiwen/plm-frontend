@@ -8,7 +8,7 @@ import type { FORM_MODE } from './DialogFormView.vue'
 
 const props = defineProps<{
   entityClass: ClassWithGetModelName<any>
-  fieldTypes: FIELD_TYPES
+  fieldTypes: FieldTypes
 }>()
 
 const client = useRpcClient(props.entityClass)

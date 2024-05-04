@@ -1,7 +1,8 @@
-type FIELD_TYPE = 
-'boolean' |'integer' | 'float' | 'string' | 'text' |
-'date' | 'time' | 'datetime' |
-'many2one' | 'one2many' | 'many2many'
+type FieldType =
+  'boolean' | 'integer' | 'float' |
+  'string' | 'text' | 'password' |
+  'date' | 'time' | 'datetime' |
+  'many2one' | 'one2many' | 'many2many' |
+  'image' | 'file'
 
-type FIELD_TYPES = { [key: string]: FIELD_TYPE; }
-
+type FieldTypes = { [key: string]: FieldType; }
