@@ -1,20 +1,11 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
 import Department from '@/models/department';
 import Role from '@/models/role';
 import User from '@/models/user';
-
-const fieldTypes = ref<FieldTypes>({
-  "username": "string",
-  "nickname": "string",
-  "password": "string",
-  "departmentId": "many2one",
-  "roles": "many2many"
-})
 </script>
 
 <template>
-  <ListView :model-name="User.getModelName()" :field-types="fieldTypes">
+  <ListView :model-name="User.getModelName()">
     <template #columns>
       <el-table-column prop="username" label="用户名" sortable />
       <el-table-column prop="nickname" label="昵称" sortable />

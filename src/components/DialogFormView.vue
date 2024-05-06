@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { watch } from 'vue'
+import { getFieldInfos } from '@/utils/model'
 import { useRpcClient } from '@/utils/rpcClient'
 import { ElMessage } from 'element-plus'
 
@@ -11,11 +12,11 @@ const baseFields: FieldType[] =
 const props = defineProps<{
   modelName: string
   recordId: string
-  fieldTypes: FieldTypes
   mode: FORM_MODE
 }>()
 
 const client = useRpcClient<any>(props.modelName)
+const fieldInfos = getFieldInfos(props.modelName)
 
 const emit = defineEmits(['onDialogConfirm'])
 
@@ -29,20 +30,22 @@ async function handleConfirm() {
   if (props.mode === 'CREATE') {
     const createData: any = {}
     Object.keys(formData.value).forEach((field) => {
-      if (baseFields.indexOf(props.fieldTypes[field]) > -1) {
+      if (!fieldInfos[field]) {
+        return
+      } else if (baseFields.indexOf(fieldInfos[field].type) > -1) {
         createData[field] = formData.value[field]
-      } else if (props.fieldTypes[field] === 'many2one') {
+      } else if (fieldInfos[field].type === 'many2one') {
         if (formData.value[field]?.id) {
           createData[field] = formData.value[field]?.id
         }
-      } else if (props.fieldTypes[field] === 'one2many') {
+      } else if (fieldInfos[field].type === 'one2many') {
         // TODO
-      } else if (props.fieldTypes[field] === 'many2many') {
+      } else if (fieldInfos[field].type === 'many2many') {
         if (formData.value[field] && formData.value[field].length > 0) {
           createData[field] = [[0, formData.value[field].map((x: any) => x.id)]]
         }
       } else {
-        return;
+        return
       }
     })
     console.log(createData)
@@ -51,17 +54,19 @@ async function handleConfirm() {
   } else {
     const updateData: any = {}
     Object.keys(formData.value).forEach((field) => {
-      if (baseFields.indexOf(props.fieldTypes[field]) > -1) {
+      if (!fieldInfos[field]) {
+        return
+      } else if (baseFields.indexOf(fieldInfos[field].type) > -1) {
         if (formData.value[field] !== formDataOld[field]) {
           updateData[field] = formData.value[field]
         }
-      } else if (props.fieldTypes[field] === 'many2one') {
+      } else if (fieldInfos[field].type === 'many2one') {
         if (formData.value[field]?.id !== formDataOld[field]?.id) {
           updateData[field] = formData.value[field]?.id || 0
         }
-      } else if (props.fieldTypes[field] === 'one2many') {
+      } else if (fieldInfos[field].type === 'one2many') {
         // TODO
-      } else if (props.fieldTypes[field] === 'many2many') {
+      } else if (fieldInfos[field].type === 'many2many') {
         const oldIds: string[] = formDataOld[field]?.map((x: any) => x.id) || []
         const newIds: string[] = formData.value[field]?.map((x: any) => x.id) || []
         if (oldIds.length === 0 && newIds.length === 0) {

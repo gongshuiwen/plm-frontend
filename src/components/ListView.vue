@@ -7,7 +7,6 @@ import type { FORM_MODE } from './DialogFormView.vue'
 
 const props = defineProps<{
   modelName: string
-  fieldTypes: FieldTypes
 }>()
 
 const client = useRpcClient<any>(props.modelName)
@@ -157,7 +156,6 @@ function handleSelectionChange(val: any[]) {
     v-model:form-data="formData"
     v-model:form-visible="formVisible"
     :model-name="modelName"
-    :field-types="fieldTypes"
     :record-id="formRecordId"
     :mode="formMode"
     @on-dialog-confirm="fetchData">

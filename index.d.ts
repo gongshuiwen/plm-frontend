@@ -11,8 +11,6 @@ type FieldType =
   'many2one' | 'one2many' | 'many2many' |
   'image' | 'file'
 
-type FieldTypes = { [key: string]: FieldType; }
-
 type FieldInfo = {
   name: string
   type: FieldType
