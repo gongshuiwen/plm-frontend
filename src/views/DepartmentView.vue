@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Department from '@/entities/department'
+import Department from '@/models/department'
 </script>
 
 <template>
@@ -21,3 +21,4 @@ import Department from '@/entities/department'
     </template>
   </ListView>
 </template>
+@/models/department

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Menu from '@/entities/menu'
+import Menu from '@/models/menu'
 import { Icon } from '@iconify/vue';
 </script>
 
@@ -48,3 +48,4 @@ import { Icon } from '@iconify/vue';
     </template>
   </ListView>
 </template>
+@/models/menu

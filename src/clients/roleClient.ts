@@ -1,5 +1,5 @@
 import { RpcClient } from '@/utils/rpcClient'
-import Role from '@/entities/role'
+import Role from '@/models/role'
 
 class RoleClient extends RpcClient<Role> {
 }

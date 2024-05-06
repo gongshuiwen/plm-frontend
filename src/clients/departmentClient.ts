@@ -1,5 +1,5 @@
 import { RpcClient } from '@/utils/rpcClient'
-import Department from '@/entities/department'
+import Department from '@/models/department'
 
 class DepartmentClient extends RpcClient<Department> {
 }

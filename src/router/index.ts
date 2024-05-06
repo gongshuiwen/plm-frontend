@@ -4,7 +4,7 @@ import type { RouteRecordRaw } from 'vue-router'
 import { useBreadcrumbStore } from '@/stores/breadcrumb'
 import { useRoutesStore } from '@/stores/routes'
 import { useUserStore } from '@/stores/user'
-import type Menu from '@/entities/menu'
+import type Menu from '@/models/menu'
 import menuClient from '@/clients/menuClient'
 import LayoutView from '@/layout/LayoutView.vue'
 

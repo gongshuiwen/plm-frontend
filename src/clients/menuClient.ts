@@ -1,5 +1,5 @@
 import { RpcClient } from '@/utils/rpcClient'
-import Menu from '@/entities/menu'
+import Menu from '@/models/menu'
 
 class MenuClient extends RpcClient<Menu> {
   async tree(): Promise<Menu[]> {

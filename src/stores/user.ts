@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { login as apiLogin, logout as apiLogout } from '@/api/auth'
-import User from '@/entities/user'
+import User from '@/models/user'
 import { useRpcClient } from '@/utils/rpcClient'
 
 export const useUserStore = defineStore('user', () => {

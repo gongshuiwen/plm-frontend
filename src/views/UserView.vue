@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import Department from '@/entities/department';
-import Role from '@/entities/role';
-import User from '@/entities/user';
+import Department from '@/models/department';
+import Role from '@/models/role';
+import User from '@/models/user';
 
 const fieldTypes = ref<FieldTypes>({
   "username": "string",
@@ -47,3 +47,4 @@ const fieldTypes = ref<FieldTypes>({
     </template>
   </ListView>
 </template>
+@/models/department@/models/role@/models/user

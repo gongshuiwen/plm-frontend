@@ -1,5 +1,5 @@
 import axiosInstance from '@/utils/request'
-import type User from '@/entities/user'
+import type User from '@/models/user'
 
 export async function login(username: string, password: string): Promise<User> {
   const { data } = await axiosInstance.post('/api/login', {

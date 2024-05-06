@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Role from '@/entities/role';
+import Role from '@/models/role';
 </script>
 
 <template>
@@ -22,3 +22,4 @@ import Role from '@/entities/role';
     </template>
   </ListView>
 </template>
+@/models/role
