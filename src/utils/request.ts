@@ -1,12 +1,19 @@
-import axios from 'axios';
+import axios from 'axios'
 import type { AxiosResponse } from 'axios'
-import router from '@/router'
 import { ElMessage } from 'element-plus'
+import router from '@/router'
+import { useUserStore } from '@/stores/user'
 
-interface Result {
+interface Error {
+    namespace: string
     code: number
     message: string
+}
+
+interface Result {
     data: any
+    error: Error
+    meta: any
 }
 
 const axiosInstance = axios.create({
@@ -15,13 +22,19 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
     (response: AxiosResponse<Result>) => {
-        if ( response.data.code === 10000 ) {
+        if (!response.data.error) {
+            // unwrap data
             response.data = response.data.data
             return response
         }
 
-        ElMessage.error(response.data.message)
-        if ( response.data.code === 80001 && router.currentRoute.value.path !== '/login' ) {
+        const error = response.data.error
+        ElMessage.error(error.message)
+
+        // Authentication failed, clear user info and redirect to login page
+        if (error.namespace == 'core' && error.code === 80001
+            && router.currentRoute.value.path !== '/login') {
+            useUserStore().clearUserInfo()
             router.push('/login')
         }
         return Promise.reject(response)
