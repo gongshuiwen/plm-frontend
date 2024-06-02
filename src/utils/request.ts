@@ -16,6 +16,10 @@ interface Result {
     meta: any
 }
 
+function showErrorMessage(message: string) {
+    ElMessage.error(message)
+}
+
 const axiosInstance = axios.create({
     timeout: 3000,
 });
@@ -29,7 +33,7 @@ axiosInstance.interceptors.response.use(
         }
 
         const error = response.data.error
-        ElMessage.error(error.message)
+        showErrorMessage(error.message)
 
         // Authentication failed, clear user info and redirect to login page
         if (error.namespace == 'core' && error.code === 80001
@@ -41,9 +45,9 @@ axiosInstance.interceptors.response.use(
     },
     error => {
         if (axios.isAxiosError(error) && error.code === 'ECONNABORTED') {
-            ElMessage.error("请求超时，请稍后再试")
+            showErrorMessage("请求超时，请稍后再试")
         } else {
-            ElMessage.error(error.toString())
+            showErrorMessage(error.toString())
         }
         return Promise.reject(error)
     }
