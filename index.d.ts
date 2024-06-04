@@ -1,3 +1,12 @@
+interface BaseModel {
+  id?: string
+  createTime?: string
+  updateTime?: string
+  createUser?: string
+  updateUser?: string
+  [key: string]: any
+}
+
 interface ModelClass {
   new(): T
   getModelName: () => string

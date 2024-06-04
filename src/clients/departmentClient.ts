@@ -1,7 +1,7 @@
-import { RpcClient } from '@/utils/rpcClient'
+import { BaseRpcClient } from '@/utils/rpcClient'
 import Department from '@/models/department'
 
-class DepartmentClient extends RpcClient<Department> {
+class DepartmentClient extends BaseRpcClient<Department> {
 }
 
-export default new DepartmentClient(Department.getModelName());
+export default new DepartmentClient(Department.getModelName())

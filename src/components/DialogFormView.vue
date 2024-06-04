@@ -94,7 +94,8 @@ async function handleConfirm() {
       }
     })
     console.log(updateData)
-    await client.updateById(formData.value.id, updateData)
+    updateData.id = formData.value.id
+    await client.updateById(updateData)
     ElMessage.success('更新成功')
   }
 
@@ -107,7 +108,7 @@ function handleClose() {
 }
 
 async function fetchData() {
-  formDataOld = await client.selectById(props.recordId)
+  formDataOld = await client.getById(props.recordId)
   console.log(formDataOld)
   formData.value = { ...formDataOld }
 }

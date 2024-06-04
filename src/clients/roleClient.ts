@@ -1,7 +1,7 @@
-import { RpcClient } from '@/utils/rpcClient'
+import { BaseRpcClient } from '@/utils/rpcClient'
 import Role from '@/models/role'
 
-class RoleClient extends RpcClient<Role> {
+class RoleClient extends BaseRpcClient<Role> {
 }
 
-export default new RoleClient(Role.getModelName());
+export default new RoleClient(Role.getModelName())
