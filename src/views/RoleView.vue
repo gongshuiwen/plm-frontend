@@ -22,4 +22,3 @@ import Role from '@/models/role';
     </template>
   </ListView>
 </template>
-@/models/role

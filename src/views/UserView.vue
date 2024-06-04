@@ -38,4 +38,3 @@ import User from '@/models/user';
     </template>
   </ListView>
 </template>
-@/models/department@/models/role@/models/user

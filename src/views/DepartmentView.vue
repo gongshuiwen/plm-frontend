@@ -21,4 +21,3 @@ import Department from '@/models/department'
     </template>
   </ListView>
 </template>
-@/models/department

@@ -48,4 +48,3 @@ import { Icon } from '@iconify/vue';
     </template>
   </ListView>
 </template>
-@/models/menu
