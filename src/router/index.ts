@@ -55,7 +55,7 @@ let dynamicRoutesInitialized = false
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 router.beforeEach(async (to, from) => {
   // when the dynamic routes not initialized, try to initialize
-  if (!dynamicRoutesInitialized) {
+  if (!dynamicRoutesInitialized && useUserStore().userId) {
     await refreshRoutes()
     return { path: to.path }
   }
