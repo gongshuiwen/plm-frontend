@@ -1,6 +1,32 @@
 import type { AxiosInstance } from 'axios'
 import defaultAxiosInstance from './request'
 
+// Regular expression to match a positive integer without leading zeros
+const regex = /^[1-9]\d*$/
+
+// Define the maximum value for a 64-bit integer
+const MAX_INT_64 = BigInt("9223372036854775807")
+
+function checkId(id: string) {
+  // Check id is not null
+  if (!id) throw new Error('id must not be empty')
+
+  // Check if the id is a positive integer without leading zeros
+  if (!regex.test(id))
+    throw new Error('id must be a positive integer without leading zeros')
+
+  // Convert the string to a BigInt and compare with MAX_INT_64
+  if (BigInt(id) > MAX_INT_64)
+    throw new Error('id must be less than or equal to 9223372036854775807')
+
+  return true;
+}
+
+function checkIds(ids: string[]) {
+  if (!ids || ids.length === 0) throw new Error('ids must not be empty')
+  ids.forEach(id => checkId(id))
+}
+
 export interface PageResult<T> {
   current: number // page num
   size: number // page size
@@ -100,7 +126,7 @@ export class BaseRpcClient<T extends BaseModel> implements RpcClient<T> {
 
   async getById(id: string): Promise<T> {
     // check params
-    if (!id) throw new Error('getById request failed: id is required')
+    checkId(id)
 
     // do request
     try {
@@ -115,10 +141,7 @@ export class BaseRpcClient<T extends BaseModel> implements RpcClient<T> {
 
   async getByIds(ids: string[]): Promise<T[]> {
     // check params
-    if (!ids || ids.length === 0) throw new Error('getByIds request failed: ids is required')
-    ids.forEach(id => {
-      if (!id) throw new Error('getByIds request failed: id is required')
-    })
+    checkIds(ids)
 
     // do request
     try {
@@ -232,7 +255,7 @@ export class BaseRpcClient<T extends BaseModel> implements RpcClient<T> {
 
   async deleteById(id: string): Promise<Boolean> {
     // check params
-    if (!id) throw new Error('deleteById request failed: id is required')
+    checkId(id)
 
     // do request
     try {
@@ -247,10 +270,7 @@ export class BaseRpcClient<T extends BaseModel> implements RpcClient<T> {
 
   async deleteByIds(ids: string[]): Promise<Boolean> {
     // check params
-    if (!ids || ids.length === 0) throw new Error('deleteByIds request failed: ids is required')
-    ids.forEach(id => {
-      if (!id) throw new Error('deleteByIds request failed: id is required')
-    })
+    checkIds(ids)
 
     // do request
     try {
