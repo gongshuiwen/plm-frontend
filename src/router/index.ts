@@ -112,7 +112,7 @@ function convertMenuListToRouteList(menus: Menu[], isRoot: boolean = true): Rout
 }
 
 export async function refreshRoutes() {
-  const dynamicRoutes = convertMenuListToRouteList(await menuClient.tree())
+  const dynamicRoutes = convertMenuListToRouteList(await menuClient.getMenusTree())
 
   // remove old dynamic routes
   router.getRoutes().forEach((route) => {
