@@ -181,9 +181,6 @@ export class BaseRpcClient<T extends BaseModel> implements RpcClient<T> {
   }
 
   async nameSearch(name: string): Promise<T[]> {
-    // check params
-    if (!name) throw new Error('nameSearch request failed: name is required')
-
     // do request
     try {
       const response = await this.axiosInstance.get<T[]>(`${this.baseURL}/nameSearch`, {
