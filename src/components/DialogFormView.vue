@@ -69,28 +69,36 @@ async function handleConfirm() {
       } else if (fieldInfos[field].type === 'many2many') {
         const oldIds: string[] = formDataOld[field]?.map((x: any) => x.id) || []
         const newIds: string[] = formData.value[field]?.map((x: any) => x.id) || []
+        console.log(oldIds, newIds)
         if (oldIds.length === 0 && newIds.length === 0) {
           return
         } else if (oldIds.length === 0) {
           updateData[field] = [[0, newIds]]
         } else if (newIds.length === 0) {
-          updateData[field] = [[2, oldIds]]
+          updateData[field] = [[1, oldIds]]
         } else {
           const commands = []
-          const addIds = newIds.filter((x) => oldIds.indexOf(x) == -1)
-          if (addIds.length > 0) {
-            commands.push([0, addIds])
+
+          // get added ids
+          const addedIds = newIds.filter((x) => oldIds.indexOf(x) == -1)
+          if (addedIds.length > 0) {
+            commands.push([0, addedIds])
           }
-          const removeIds = oldIds.filter((x) => newIds.indexOf(x) == -1)
-          if (removeIds.length > 0) {
-            commands.push([2, removeIds])
+          
+          // get removed ids
+          const removedIds = oldIds.filter((x) => newIds.indexOf(x) == -1)
+          if (removedIds.length > 0) {
+            commands.push([1, removedIds])
           }
-          if (commands.length > 0) {
+
+          if (commands.length === 2) {
+            updateData[field] = [[2, newIds]]
+          } else if (commands.length === 1) {
             updateData[field] = commands
           }
         }
       } else {
-        return;
+        return
       }
     })
     console.log(updateData)
